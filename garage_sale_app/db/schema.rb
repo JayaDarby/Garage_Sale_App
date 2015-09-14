@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911020702) do
+ActiveRecord::Schema.define(version: 20150914031653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,20 +34,34 @@ ActiveRecord::Schema.define(version: 20150911020702) do
   create_table "garage_sales", force: :cascade do |t|
     t.string   "address"
     t.string   "description"
-    t.text     "photos",      default: [],              array: true
+    t.text     "photos",             default: [],              array: true
     t.datetime "postdate"
     t.text     "title"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "user_id"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.string   "city"
+    t.string   "state"
+    t.integer  "zip_code"
+    t.string   "full_address"
   end
+
+  add_index "garage_sales", ["user_id"], name: "index_garage_sales_on_user_id", using: :btree
 
   create_table "items", force: :cascade do |t|
     t.text     "description"
     t.decimal  "price"
-    t.text     "images",      default: [],              array: true
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "images",         default: [],              array: true
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "garage_sale_id"
   end
+
+  add_index "items", ["garage_sale_id"], name: "index_items_on_garage_sale_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
@@ -55,6 +69,9 @@ ActiveRecord::Schema.define(version: 20150911020702) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.binary   "avatar"
   end
 
+  add_foreign_key "garage_sales", "users"
+  add_foreign_key "items", "garage_sales"
 end

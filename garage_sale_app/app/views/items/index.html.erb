@@ -1,0 +1,72 @@
+<h1>Items#index</h1>
+<p>Find me in app/views/items/index.html.erb</p>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Using closures in event listeners</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 500px;
+        width: 800px;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&signed_in=true"></script>
+    <script>
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: {lat: -25.363882, lng: 131.044922 }
+  });
+
+  var southWest = new google.maps.LatLng(-31.203405, 125.244141);
+  var northEast = new google.maps.LatLng(-25.363882, 131.044922);
+
+  // Display the area between the location southWest and northEast.
+  map.fitBounds(new google.maps.LatLngBounds(southWest, northEast));
+
+  // Add 5 markers to map at random locations.
+  // For each of these markers, give them a title with their index, and when
+  // they are clicked they should open an infowindow with text from a secret
+  // message.
+  var secretMessages = ['This', 'is', 'the', 'secret', 'message'];
+  var lngSpan = northEast.lng() - southWest.lng();
+  var latSpan = northEast.lat() - southWest.lat();
+  for (var i = 0; i < secretMessages.length; ++i) {
+    var marker = new google.maps.Marker({
+      position: {
+        lat: southWest.lat() + latSpan * Math.random(),
+        lng: southWest.lng() + lngSpan * Math.random()
+      },
+      map: map
+    });
+    attachSecretMessage(marker, secretMessages[i]);
+  }
+}
+
+// Attaches an info window to a marker with the provided message. When the
+// marker is clicked, the info window will open with the secret message.
+function attachSecretMessage(marker, secretMessage) {
+  var infowindow = new google.maps.InfoWindow({
+    content: secretMessage
+  });
+
+  marker.addListener('click', function() {
+    infowindow.open(marker.get('map'), marker);
+  });
+}
+
+    </script>
+  </head>
+  <body>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDD39e1frZNIO5-4Rz6dvIHUPyz7FXmQ&v=3.exp&signed_in=true&callback=initMap" async defer></script>
+    <div id="map"></div>
+  </body>
+</html>

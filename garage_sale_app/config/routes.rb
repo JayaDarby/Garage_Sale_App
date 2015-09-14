@@ -1,4 +1,20 @@
 Rails.application.routes.draw do
+
+  get 'find_garage_sales' => 'searches#index'
+  get 'home' => 'home#index'
+
+  
+  resources :users do
+    resources :garage_sales
+  #    resources :items, shallow:true
+  end
+
+
+  #resources :garage_sales, only:[:new, :create]
+  #resources :users
+  #resources :garage_sales
+  #resources :items
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

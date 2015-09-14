@@ -1,0 +1,24 @@
+<h1>GarageSales#new</h1>
+<p>Find me in app/views/garage_sales/new.html.erb</p>
+
+<h4>New Garage Sale</h4>
+<%= form_for [@user, @garage_sale], html: { multipart: true } do |f| %>
+    <%= f.label "Title" %>
+    <%= f.text_field :title %><br />
+    <%= f.label "Address" %>
+    <%= f.text_field :address %><br />
+    <%= f.label "City" %>
+    <%= f.text_field :city %><br />
+    <%= f.label "State" %>
+    <%= f.select :state, options_for_select(us_states)%><br />
+    <%= f.label "Zip Code" %>
+    <%= f.text_field :zip_code %><br />
+    <%= f.label "Description" %>
+    <%= f.text_field :description %><br />
+    <%= f.label 'Photo'  %>
+    <%= f.file_field :photo %><br />
+    <%= f.submit "New Garage Sale" %>
+<% end %>
+
+
+

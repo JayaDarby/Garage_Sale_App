@@ -1,0 +1,5 @@
+<%= @garage_sale.title  %>
+<%= @garage_sale.description  %>
+<%= image_tag @garage_sale.photo.url(:small) %>
+<%= @garage_sale.id  %>
+<%= link_to "Delete", user_garage_sale_path(@user, @garage_sale), method: :delete, data: {confirm: "are you sure?"} %>

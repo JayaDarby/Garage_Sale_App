@@ -3,7 +3,6 @@ class CreateGarageSales < ActiveRecord::Migration
     create_table :garage_sales do |t|
       t.string :address
       t.string :description
-      t.text :photos, array:true, default: []
       t.timestamp :postdate
       t.text :title
 
@@ -11,3 +10,4 @@ class CreateGarageSales < ActiveRecord::Migration
     end
   end
 end
+
