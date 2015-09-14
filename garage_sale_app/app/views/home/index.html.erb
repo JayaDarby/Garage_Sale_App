@@ -1,13 +1,9 @@
-
-
-
-
 <p>heiiiiii</p>
 
 <!DOCTYPE html>
 <html>
   <head>
-    <style type="text/css">
+	<style type="text/css">
       html, body {  margin: 0; padding: 0; }
       #map { height: 500px; width:1000px; }
     </style>
@@ -44,8 +40,12 @@
 	      var marker = new google.maps.Marker({
         	 position: pos,
   			 map: map,
-  			 title: 'Your Location'
+  			 title: 'Your Location',
+  			 animation: google.maps.Animation.DROP
   		  });
+  		  marker.addListener('click', toggleBounce);
+
+  		  placeMarkers(['Norway', 'Africa', 'Asia','North America','South America']);
 	      
 	    }, function() {
 	      //handleLocationError(true, infoWindow, map.getCenter());
@@ -56,15 +56,39 @@
 		    	getCenter();
 	  }
 
-	  map.data.addGeoJson(cities);
+	  //map.data.addGeoJson(cities);
+	  
+	}; ///end of Map init
+
+	function placeMarkers(addresses){
+		for (var x = 0; x < addresses.length; x++) {
+        $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[x]+'&sensor=false', null, function (data) {
+            var p = data.results[0].geometry.location
+            var latlng = new google.maps.LatLng(p.lat, p.lng);
+            new google.maps.Marker({
+                position: latlng,
+                map: map
+            });
+
+        });
+    }
+
 	}
+
+	function toggleBounce() {
+			  if (marker.getAnimation() !== null) {
+			    marker.setAnimation(null);
+			  } else {
+			    marker.setAnimation(google.maps.Animation.BOUNCE);
+			  }
+	};
 	
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	  infoWindow.setPosition(pos);
 	  infoWindow.setContent(browserHasGeolocation ?
 	                        'Error: The Geolocation service failed.' :
 	                        'Error: Your browser doesn\'t support geolocation	.');
-	}
+	};
 
 	var cities = {
   type: 'FeatureCollection',
