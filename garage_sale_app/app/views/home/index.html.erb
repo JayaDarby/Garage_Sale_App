@@ -1,5 +1,3 @@
-<p>heiiiiii</p>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,7 +7,15 @@
     </style>
   </head>
   <body>
+  	<!-- <img src="/app/assets/images/garagesaleimages/homepage.jpg"> -->
     <div id="map"></div>
+    <div ng-repeat='garageSale in garageSales'>
+    	<div>{{garageSale.id}}</div>
+    </div>
+    <div ng-view>
+
+
+    </div>
     <script type="text/javascript">
 
 	var map;
