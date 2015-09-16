@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914031653) do
+ActiveRecord::Schema.define(version: 20150916021151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,18 +27,20 @@ ActiveRecord::Schema.define(version: 20150914031653) do
     t.date     "date"
     t.time     "start_time"
     t.time     "end_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "garage_sale_id"
   end
+
+  add_index "garage_date_times", ["garage_sale_id"], name: "index_garage_date_times_on_garage_sale_id", using: :btree
 
   create_table "garage_sales", force: :cascade do |t|
     t.string   "address"
     t.string   "description"
-    t.text     "photos",             default: [],              array: true
     t.datetime "postdate"
     t.text     "title"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.integer  "user_id"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
@@ -69,9 +71,9 @@ ActiveRecord::Schema.define(version: 20150914031653) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.binary   "avatar"
   end
 
+  add_foreign_key "garage_date_times", "garage_sales"
   add_foreign_key "garage_sales", "users"
   add_foreign_key "items", "garage_sales"
 end

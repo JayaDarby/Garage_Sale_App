@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  root to: 'garage_sales#index' 
   get 'find_garage_sales' => 'searches#index'
   get 'home' => 'home#index'
 
@@ -8,6 +8,11 @@ Rails.application.routes.draw do
     resources :garage_sales
   #    resources :items, shallow:true
   end
+
+  scope '/api' do
+    resources :garage_sales, only:[:index, :create, :show, :update, :destroy]
+  end
+
 
 
   #resources :garage_sales, only:[:new, :create]
