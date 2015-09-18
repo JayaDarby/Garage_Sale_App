@@ -1,1 +1,16 @@
 <p>this is the garage sale index page</p>
+<div class='allGarageSalesContainer'>
+	<% @user_garage_sales.each do |sale| %>
+	<div class='allGarageSalesInfoContainer'>
+		<% puts sale.photo %>
+		<span class='allGarageSalesPhoto'>
+			  <%= image_tag sale.photo.url(:small) %>
+		</span>
+		<div class='allGarageSalesTitleDesciptionContainer'>
+		<h4><%= sale.title %></h4>
+		<p><%= sale.description %></p>
+		</div>
+	</div><br>
+	<% end %>
+<div>
+

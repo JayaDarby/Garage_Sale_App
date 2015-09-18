@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app = 'GarageSaleApp'>
 <head>
-	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
 	  	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.	5/css/bootstrap.min.css">	
 	<!-- Optional theme -->
@@ -24,11 +24,12 @@
   <style type="text/css">
   	.daNav{
   		background:transparent;
+  		border:none;
   	}
   </style>
 
 </head>
-<body ng-controller='HomeController'>
+<body>
 	<nav class="daNav navbar navbar-default">
 	  <div class="daNav container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -82,10 +83,6 @@
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>
-	<div>
-	<p>{{4+4}}</p>
-	<p>{{testing}}</p>
-	</div>
 
   <%= yield %>
 

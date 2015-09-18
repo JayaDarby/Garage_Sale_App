@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   scope '/api' do
-    resources :garage_sales, only:[:index, :create, :show, :update, :destroy]
+     resources :garage_sales, :controller => "api", only:[:index, :show]
   end
 
 
