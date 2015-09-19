@@ -23,6 +23,14 @@
         font-size:80px;
         color:white;
       }
+
+      #titleDetails{
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        text-align: center;
+        font-size:30px;
+        color:white;
+        font-family: 'Droid Serif', serif;
+      }
     </style>
   </head>
   <body ng-controller='HomeController'>
@@ -78,7 +86,7 @@
     
       window.fbAsyncInit = function() {
       FB.init({
-        appId      : '{your-app-id}',
+        appId      : '603497913123464',
         cookie     : true,  // enable cookies to allow the server to access 
                             // the session
         xfbml      : true,  // parse social plugins on this page
@@ -124,18 +132,16 @@
       }
     </script>
 
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
-
-<div id="status">
-</div>
+    <!--
+      Below we include the Login Button social plugin. This button uses
+      the JavaScript SDK to present a graphical Login button that triggers
+      the FB.login() function when clicked.
+    -->
+    
+    <div id="status">
+    </div>
     <h1 id='mainTitle'>The Whole Nine YardSales</h1>
+    <p id='titleDetails'>Find garage sales in your neighborhood</p>
    
     <!-- <img src="/app/assets/images/garagesaleimages/homepage.jpg"> -->
     <div id='space'></div>
@@ -145,6 +151,8 @@
       data-width="450"
       data-show-faces="true">
     </div>
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
 
     <div id="map"></div>
     <input type='button' value='Find Garage Sales Near Me' onclick='getLocalGarageSales()'></input>

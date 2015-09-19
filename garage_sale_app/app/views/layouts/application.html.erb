@@ -3,7 +3,7 @@
 <head>
 	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
 	  	<!-- Latest compiled and minified CSS -->
-	<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster|Droid+Serif' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.	5/css/bootstrap.min.css">	
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.	5/css/bootstrap-theme.min.css">
@@ -37,6 +37,16 @@
   		color:white;
   	}
 
+  	.navbar.transparent.navbar-inverse .navbar-inner {
+	    border-width: 0px;
+	    -webkit-box-shadow: 0px 0px;
+	    box-shadow: 0px 0px;
+	    background-color: rgba(0,0,0,0.0);
+	    background-image: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop( 0% , 	rgba(0,0,0,0.00)),color-stop( 100% , rgba(0,0,0,0.00)));
+	    background-image: -webkit-linear-gradient(270deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+	    background-image: linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+	}
+
 	/*font-family: 'Lobster', cursive;
 	
 	font-family: 'Asap', sans-serif;
@@ -49,7 +59,7 @@
 
 </head>
 <body>
-	<nav class="daNav navbar navbar-default">
+	<nav class="daNav navbar transparent navbar-inverse">
 	  <div class="daNav container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="daNav navbar-header">
@@ -65,7 +75,7 @@
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse daNav" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li	>
+	        <li><a href="#">Link <span class="sr-only">(current)</span></a></li	>
 	        <li><a href="#">Link</a></li>
 	        <li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-	haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
