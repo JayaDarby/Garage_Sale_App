@@ -6,11 +6,16 @@ Rails.application.routes.draw do
   
   resources :users do
     resources :garage_sales
-  #    resources :items, shallow:true
+    resources :items
   end
 
   scope '/api' do
-     resources :garage_sales, :controller => "api", only:[:index, :show]
+    scope '/garage_sales' do
+      resources :garage_sales, :controller => "garage_sales_api", only:[:index, :show]
+    end
+    scope '/items' do
+      resources :items, :controller => 'items_api', only:[:index, :show]
+    end
   end
 
 

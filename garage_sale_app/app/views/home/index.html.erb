@@ -30,6 +30,7 @@
         font-size:30px;
         color:white;
         font-family: 'Droid Serif', serif;
+
       }
     </style>
   </head>
@@ -138,8 +139,7 @@
       the FB.login() function when clicked.
     -->
     
-    <div id="status">
-    </div>
+    
     <h1 id='mainTitle'>The Whole Nine YardSales</h1>
     <p id='titleDetails'>Find garage sales in your neighborhood</p>
    
@@ -151,8 +151,10 @@
       data-width="450"
       data-show-faces="true">
     </div>
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    <fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();">
     </fb:login-button>
+    <div id="status">
+    </div>
 
     <div id="map"></div>
     <input type='button' value='Find Garage Sales Near Me' onclick='getLocalGarageSales()'></input>
