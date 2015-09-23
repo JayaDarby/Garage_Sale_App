@@ -16,3 +16,6 @@
  *= require jquery.fileupload-ui
  */
 
+body{
+	font-family:'Open Sans';
+}

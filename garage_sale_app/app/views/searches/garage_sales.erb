@@ -1,0 +1,317 @@
+<style type="text/css">
+  html, body {  margin: 0; padding: 0; }
+  #map { height: 400px; width:500px; float: left;}
+  #searchFilterGarageSales{width:1000px;}
+  .searchFilterMargin{margin-left: 5px;
+                      margin-right: 5px}
+  #demo{margin-bottom: none}
+  .garageFiltersContainer{
+
+  }
+  #garageSaleFilters{
+    width:100%;
+  }
+  .garageFilter{
+    margin-left:5px;
+    margin-right: 5px;
+    width: 22%;
+    float: left;
+  }
+</style>
+<script type="text/javascript">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip('toggle')
+  });
+  console.log('hello i loaded')
+</script>
+
+<!-- filtering garage sales by: distance, date, features(open now, has items for sale online) -->
+<!-- sorting garage sales by rating, distance -->
+<!-- filter by category -->
+<!-- sort by items by what's new, highest price, lowest price -->
+<body>
+  <div class='container' ng-controller='HomeController'>
+  <form id='searchFilterGarageSales' class="form-inline" role="form">
+    <div>
+      <span class='searchFilterMargin' ng-model='desiredRadius'>
+        <select class="form-control">
+              <option value="1">1 Mile</option>
+              <option value="2">5 Miles</option>
+              <option value="3">10 Miles</option>
+              <option value="4">30 Miles</option>
+        </select>
+        <input type='button' class="btn btn-default" value='Find Garage  Sales' onclick=' getLocalGarageSales()'>
+      </span>
+      <span class='searchFilterMargin'>
+        <input type='text' placeholder='I want to find..' class='form-control' ng-model='itemSearchKeyword'>
+        <button type='button' class='btn btn-default'>Find Items</button>
+      </span> 
+      <span class='searchFilterMargin' ng-model='desiredTimeFrame'>
+        <select class="form-control">
+              <option value="1"></option>
+              <option value="2">5 Miles</option>
+              <option value="3">10 Miles</option>
+              <option value="4">30 Miles</option>
+        </select>
+      <input type='button' class="btn btn-default" value='Find Garage Sales' onclick=' getLocalGarageSales()'>
+      </span>
+      <form action='/#/find_items'>
+        <button type='button' class='btn btn-default'><a href='/find_items'>Find Items</a></button>
+      </form>
+      
+
+     <!--  <span class="dropdown searchFilterMargin">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          Distance
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#">1 Mile</a></li>
+          <li><a href="#">5 Miles</a></li>
+          <li><a href="#">10 Miles</a></li>
+          <li><a href="#">30 Miles</a></li>
+        </ul>
+      </span> -->
+    
+  </form> 
+  <br>
+  <div id="map"></div><br><br>
+      <p>you are working are you now?</p>
+    <p>{{garageSales}}</p>
+    <p>{{firstGarageSale}}</p>
+  </div>
+  
+<!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
+
+    <script type="text/javascript">
+      var geocoder, map, marker, service, homeLocation;
+      var garageSales = [];
+      var markersArray = [];
+
+      //codeAddresses(scope.garageSales);
+
+      function initMap() {
+        //declare google maps variables and services
+        geocoder = new google.maps.Geocoder();
+        var bounds = new google.maps.LatLngBounds;
+        service = new google.maps.DistanceMatrixService;
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 5000, lng: 5000},
+          zoom: 12
+        });
+        var myLatlng = {lat: -25.363, lng: 131.044};
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new CenterControl(centerControlDiv, map);
+        centerControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
+
+        //var infoWindow = new google.maps.InfoWindow({map: map});
+      
+        // Try HTML5 geolocation.
+        ///*********------GETS YOUR LOCATION------**********
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var myLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            homeLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+      
+            //infoWindow.setPosition(pos);
+            //infoWindow.setContent('hello');
+            map.setCenter(myLocation);
+            var youAreHereIcon = '/assets/youarehere.png';
+            marker = new google.maps.Marker({
+               draggable:true,
+               position: myLocation,
+               map: map,
+               title: 'Your Location',
+               animation: google.maps.Animation.DROP,
+            });
+            marker.addListener('click', toggleBounce);
+            //placeMarkers(['Norway', 'Africa', 'Asia','North America','South America']);
+            
+          }, function() {
+            console.log('error!!');
+            //handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+            // Browser doesn't support Geolocation
+            //handleLocationError(false, infoWindow, map.getCenter();
+        }
+               //map.data.addGeoJson(cities);
+        
+      }; ///end of Map init
+
+      /////*******-----THIS PUTS THE GARAGE SALES ON THE MAP---------*********
+      // function codeAddresses(addresses) {
+      //   console.log(addresses);
+      //   addresses.forEach(function (address){
+      //     geocoder.geocode( { 'address': address}, function(results, status) {
+      //     if (status == google.maps.GeocoderStatus.OK) {
+      //       map.setCenter(results[0].geometry.location);
+      //       var marker = new google.maps.Marker({
+      //           map: map,
+      //           position: results[0].geometry.location
+      //       });
+      //     } else {
+      //       alert("Geocode was not successful for the following reason: " + status);
+      //     }
+      //    });
+
+      //   });
+        
+      // }
+        function getLocalGarageSales(){
+          var origin1 = {lat: 55.93, lng: -3.118};
+          var destinationA = 'Stockholm, Sweden';
+          service = new google.maps.DistanceMatrixService;
+            service.getDistanceMatrix({
+               origins: [origin1],
+               destinations: [garageSales],
+               travelMode: google.maps.TravelMode.DRIVING,
+               unitSystem: google.maps.UnitSystem.METRIC,
+               avoidHighways: false,
+               avoidTolls: false
+             }, function(response, status) {
+               if (status !== google.maps.DistanceMatrixStatus.OK) {
+                 alert('Error was: ' + status);
+               } else {
+                 var originList = response.originAddresses;
+                 var destinationList = response.destinationAddresses;
+                 var outputDiv = document.getElementById('output');
+                 outputDiv.innerHTML = '';
+                 deleteMarkers(markersArray);
+            
+                 var showGeocodedAddressOnMap = function(asDestination) {
+                   return function(results, status) {
+                     if (status === google.maps.GeocoderStatus.OK) {
+                       //map.fitBounds(bounds.extend(results[0].geometry.location));
+                       markersArray.push(new google.maps.Marker({
+                         map: map,
+                         icon:'https://chart.googleapis.com/chart?' +
+          'chst=d_map_pin_letter&chld=O|FFFF00|000000',
+                         position: results[0].geometry.location,
+                       }));
+                     } else {
+                       alert('Geocode was not successful due to: ' + status);
+                     }
+                   };
+                 };
+
+                for (var i = 0; i < originList.length; i++) {
+                    var results = response.rows[i].elements;
+                   // geocoder.geocode({'address': originList[i]},
+                   //     console.log('it worked!'));
+                   for (var j = 0; j < results.length; j++) {
+                     geocoder.geocode({'address': destinationList[j]}, function(results, status) {
+                           if (status == google.maps.GeocoderStatus.OK && results[j].distance.value <       16094) {
+                             showGeocodedAddressOnMap(true);
+                           }
+                         });
+                         //showGeocodedAddressOnMap(true));
+                     outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
+                         ': ' + results[j].distance.text + ' in ' +
+                         results[j].duration.text + '<br>';
+                      }
+                    }
+        
+        
+                  }
+                });
+              };
+         
+
+
+      function placeMarkers(addresses){
+        for (var x = 0; x < addresses.length; x++) {
+            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[x]+'    &sensor=false', null, function (data) {
+                var p = data.results[0].geometry.location
+                var latlng = new google.maps.LatLng(p.lat, p.lng);
+                new google.maps.Marker({
+                    position: latlng,
+                    map: map
+                });
+            });
+        }
+      };
+
+      function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      };
+      
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation .');
+      };
+
+
+      function deleteMarkers(markersArray) {
+        for (var i = 0; i < markersArray.length; i++) {
+          markersArray[i].setMap(null);
+        }
+        markersArray = [];
+      };
+      
+      /**
+       * The CenterControl adds a control to the map that recenters the map on Chicago.
+       * This constructor takes the control DIV as an argument.
+       * @constructor
+       */
+      function CenterControl(controlDiv, map) {
+      
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginRight = '10px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to recenter the map';
+        controlDiv.appendChild(controlUI);
+      
+        // Set CSS for the control interior.
+        var controlText = document.createElement('span');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '25px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlUI.appendChild(controlText);
+
+        var myLocationImage = document.createElement('span');
+        myLocationImage.className = 'glyphicon glyphicon-home'
+        controlText.appendChild(myLocationImage);
+
+        controlUI.addEventListener('click', function() {
+          map.setCenter(homeLocation);
+        });
+        // Setup the click event listeners: simply set the map to Chicago.
+        
+      };
+      
+      
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDD39e1frZNIO5-4Rz6dvIHUPyz7FXmQ&callback=initMap">
+    </script>
+  </div>
+</body>
+</html>
+
+
+
+
+

@@ -11,8 +11,9 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require jquery-fileupload
+//= require angular/angular-file-upload.min
 //= require angular/app
+//= require angular/controllers
+//= require angular/angularFileUpload
 //= require_tree .
 

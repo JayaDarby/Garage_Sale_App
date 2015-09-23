@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
-  root to: 'garage_sales#index' 
-  get 'find_garage_sales' => 'searches#index'
+
+  get 'find_garage_sales' => 'searches#garage_sales'
   get 'home' => 'home#index'
+  get 'find_items' => 'searches#items'
 
   
   resources :users do
     resources :garage_sales
     resources :items
   end
+
+  resources :pictures
 
   scope '/api' do
     scope '/garage_sales' do

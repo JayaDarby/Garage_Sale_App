@@ -1,7 +1,9 @@
+var app = angular.module('GarageSaleApp');
+
 app.controller('HomeController', function($scope, $location, $http) {
 	$scope.testing = "It's working!";
 	$scope.garageSales = [];
-	$http.get("/api/garage_sales.json")
+	$http.get("/api/garage_sales/garage_sales.json")
     .then(function (data) {
     	data.data.forEach(function(garageSale){
     	  if (garageSale.full_address !== null){

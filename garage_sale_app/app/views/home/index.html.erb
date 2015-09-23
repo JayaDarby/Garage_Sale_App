@@ -16,7 +16,7 @@
         height:800px;
       }
       #mainTitle{
-        font-family: 'Lobster', cursive;
+        font-family: 'Lobster', sans-serif;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         margin-top:150px;
         text-align: center;
@@ -29,8 +29,14 @@
         text-align: center;
         font-size:30px;
         color:white;
-        font-family: 'Droid Serif', serif;
+        font-family: 'Open Sans', sans-serif
 
+      }
+
+      #searchGarageLink{
+        width:150px;
+        text-align: center;
+        margin: 0 auto;
       }
     </style>
   </head>
@@ -105,10 +111,10 @@
       //    your app or not.
       //
       // These three cases are handled in the callback function.
-    
-      FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-      });
+    //////////////////////////////////////
+      // FB.getLoginStatus(function(response) {
+      //   statusChangeCallback(response);
+      // });
     
       };
     
@@ -140,8 +146,11 @@
     -->
     
     
-    <h1 id='mainTitle'>The Whole Nine YardSales</h1>
-    <p id='titleDetails'>Find garage sales in your neighborhood</p>
+    <h1 id='mainTitle'><b>The Whole Nine YardSales</b></h1>
+    <p id='titleDetails'>List and discover garage sales in your neighborhood</p>
+    <div id='searchGarageLink'>
+      <button type="button" class="btn btn-default"><a href='/find_garage_sales'>Find Garage Sales</a></button>
+    </div>
    
     <!-- <img src="/app/assets/images/garagesaleimages/homepage.jpg"> -->
     <div id='space'></div>
@@ -155,256 +164,3 @@
     </fb:login-button>
     <div id="status">
     </div>
-
-    <div id="map"></div>
-    <input type='button' value='Find Garage Sales Near Me' onclick='getLocalGarageSales()'></input>
-<!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
-    <p>{{garageSales}}</p>
-    <div ng-view>
-
-
-    </div>
-    <script type="text/javascript">
-      var geocoder, map, marker, service;
-      var garageSales = [];
-      var markersArray = [];
-      $.get( "/api/garage_sales.json", function( data ) {
-        console.log(data);
-          data.forEach(function(garageSale){
-            if (garageSale.full_address !== null){
-              garageSales.push(garageSale.full_address);
-            }
-          });
-          console.log(garageSales);
-      });
-    
-
-      //codeAddresses(scope.garageSales);
-
-      function initMap() {
-        //declare google maps variables and services
-        geocoder = new google.maps.Geocoder();
-        var bounds = new google.maps.LatLngBounds;
-        service = new google.maps.DistanceMatrixService;
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 5000, lng: 5000},
-          zoom: 5
-        });
-        var myLatlng = {lat: -25.363, lng: 131.044};
-
-        // var allGarageSales = document.getElementById('garageSales').innerHTML;
-        // codeAddresses(allGarageSales);
-        //var infoWindow = new google.maps.InfoWindow({map: map});
-      
-        // Try HTML5 geolocation.
-        ///*********------GETS YOUR LOCATION------**********
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-      
-            //infoWindow.setPosition(pos);
-            //infoWindow.setContent('hello');
-            map.setCenter(pos);
-            var youAreHereIcon = '/assets/youarehere.png';
-            marker = new google.maps.Marker({
-               draggable:true,
-               position: pos,
-               map: map,
-               title: 'Your Location',
-               animation: google.maps.Animation.DROP,
-            });
-            marker.addListener('click', toggleBounce);
-            //placeMarkers(['Norway', 'Africa', 'Asia','North America','South America']);
-            
-          }, function() {
-            console.log('error!!');
-            //handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-            // Browser doesn't support Geolocation
-            //handleLocationError(false, infoWindow, map.getCenter();
-        }
-   
-            //map.data.addGeoJson(cities);
-        
-      }; ///end of Map init
-
-
-      // function codeAddresses(addresses) {
-      //    addresses.forEach(function(address){
-      //      geocoder.geocode( { 'address': address}, function(results, status) {
-      //         if (status == google.maps.GeocoderStatus.OK) {
-      //           map.setCenter(results[0].geometry.location);
-      //           var marker = new google.maps.Marker({
-      //               map: map,
-      //               position: results[0].geometry.location
-      //           });
-      //         } else {
-      //           alert("Geocode was not successful for the following reason: "+status);
-      //         }
-      //       });
-      //     };
-
-      //    };
-      /////*******-----THIS PUTS THE GARAGE SALES ON THE MAP---------*********
-      // function codeAddresses(addresses) {
-      //   console.log(addresses);
-      //   addresses.forEach(function (address){
-      //     geocoder.geocode( { 'address': address}, function(results, status) {
-      //     if (status == google.maps.GeocoderStatus.OK) {
-      //       map.setCenter(results[0].geometry.location);
-      //       var marker = new google.maps.Marker({
-      //           map: map,
-      //           position: results[0].geometry.location
-      //       });
-      //     } else {
-      //       alert("Geocode was not successful for the following reason: " + status);
-      //     }
-      //    });
-
-      //   });
-        
-      // }
-        function getLocalGarageSales(){
-          var origin1 = {lat: 55.93, lng: -3.118};
-          var destinationA = 'Stockholm, Sweden';
-          service = new google.maps.DistanceMatrixService;
-            service.getDistanceMatrix({
-               origins: [origin1],
-               destinations: [garageSales],
-               travelMode: google.maps.TravelMode.DRIVING,
-               unitSystem: google.maps.UnitSystem.METRIC,
-               avoidHighways: false,
-               avoidTolls: false
-             }, function(response, status) {
-               if (status !== google.maps.DistanceMatrixStatus.OK) {
-                 alert('Error was: ' + status);
-               } else {
-                 var originList = response.originAddresses;
-                 var destinationList = response.destinationAddresses;
-                 var outputDiv = document.getElementById('output');
-                 outputDiv.innerHTML = '';
-                 deleteMarkers(markersArray);
-            
-                 var showGeocodedAddressOnMap = function(asDestination) {
-                   return function(results, status) {
-                     if (status === google.maps.GeocoderStatus.OK) {
-                       //map.fitBounds(bounds.extend(results[0].geometry.location));
-                       markersArray.push(new google.maps.Marker({
-                         map: map,
-                         icon:'https://chart.googleapis.com/chart?' +
-          'chst=d_map_pin_letter&chld=O|FFFF00|000000',
-                         position: results[0].geometry.location,
-                       }));
-                     } else {
-                       alert('Geocode was not successful due to: ' + status);
-                     }
-                   };
-                 };
-
-                for (var i = 0; i < originList.length; i++) {
-                    var results = response.rows[i].elements;
-                   // geocoder.geocode({'address': originList[i]},
-                   //     console.log('it worked!'));
-                   for (var j = 0; j < results.length; j++) {
-                     geocoder.geocode({'address': destinationList[j]}, function(results, status) {
-                           if (status == google.maps.GeocoderStatus.OK && results[j].distance.value <       16094) {
-                             showGeocodedAddressOnMap(true);
-                           }
-                         });
-                         //showGeocodedAddressOnMap(true));
-                     outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
-                         ': ' + results[j].distance.text + ' in ' +
-                         results[j].duration.text + '<br>';
-                      }
-                    }
-        
-        
-                  }
-                });
-              };
-         
-
-
-      function placeMarkers(addresses){
-        for (var x = 0; x < addresses.length; x++) {
-            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[x]+'    &sensor=false', null, function (data) {
-                var p = data.results[0].geometry.location
-                var latlng = new google.maps.LatLng(p.lat, p.lng);
-                new google.maps.Marker({
-                    position: latlng,
-                    map: map
-                });
-            });
-        }
-      };
-
-      function toggleBounce() {
-        if (marker.getAnimation() !== null) {
-          marker.setAnimation(null);
-        } else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-        }
-      };
-      
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation .');
-      };
-
-
-      function deleteMarkers(markersArray) {
-        for (var i = 0; i < markersArray.length; i++) {
-          markersArray[i].setMap(null);
-        }
-        markersArray = [];
-      };
-
-      // var cities = {
-      // type: 'FeatureCollection',
-      // features: [{
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [-87.650, 41.850]},
-      //   properties: {name: 'Chicago'}
-      // }, {
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [-149.900, 61.218]},
-      //   properties: {name: 'Anchorage'}
-      // }, {
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [-99.127, 19.427]},
-      //   properties: {name: 'Mexico City'}
-      // }, {
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [-0.126, 51.500]},
-      //   properties: {name: 'London'}
-      // }, {
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [28.045, -26.201]},
-      //   properties: {name: 'Johannesburg'}
-      // }, {
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [15.322, -4.325]},
-      //   properties: {name: 'Kinshasa'}
-      // }, {
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [151.207, -33.867]},
-      //   properties: {name: 'Sydney'}
-      // }, {
-      //   type: 'Feature',
-      //   geometry: {type: 'Point', coordinates: [0, 0]},
-      //   properties: {name: '0°N 0°E'}
-      // }]
-      //};
-    </script>
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDD39e1frZNIO5-4Rz6dvIHUPyz7FXmQ&callback=initMap">
-    </script>
-  </body>
-</html>
-
