@@ -9,8 +9,14 @@ angular
 
     .controller('GarageSaleController', ['$scope', 'FileUploader', function($scope, FileUploader) {
         var uploader = $scope.uploader = new FileUploader({
-            url: 'upload.php'
+            url: '/api/pictures/create'
         });
+
+        $scope.hello = function(){
+            $scope.uploader.queue.forEach(function(item){
+                $scope.uploadedFile = item;
+            })
+        }
 
         // FILTERS
 

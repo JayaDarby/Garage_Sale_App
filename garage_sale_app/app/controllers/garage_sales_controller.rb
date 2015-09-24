@@ -22,6 +22,7 @@ class GarageSalesController < ApplicationController
   	if params[:user_id]
   	  @user = User.find_by_id(params[:user_id])
   	  @garage_sale = @user.garage_sales.new
+      @picture = @garage_sale.pictures.new
   	end
   end
 

@@ -19,6 +19,9 @@ Rails.application.routes.draw do
     scope '/items' do
       resources :items, :controller => 'items_api', only:[:index, :show]
     end
+    scope '/pictures' do
+      resources :pictures, :controller => 'pictures_api'
+    end
   end
 
 

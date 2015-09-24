@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922062920) do
+ActiveRecord::Schema.define(version: 20150924053033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 20150922062920) do
     t.string   "description"
     t.datetime "postdate"
     t.text     "title"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "user_id"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
@@ -52,6 +52,11 @@ ActiveRecord::Schema.define(version: 20150922062920) do
     t.string   "full_address"
     t.decimal  "star_rating"
     t.integer  "num_ratings"
+    t.integer  "phone_number",       limit: 8
+    t.string   "email"
+    t.boolean  "can_text"
+    t.boolean  "can_call"
+    t.boolean  "can_email"
   end
 
   add_index "garage_sales", ["user_id"], name: "index_garage_sales_on_user_id", using: :btree
@@ -74,7 +79,10 @@ ActiveRecord::Schema.define(version: 20150922062920) do
     t.datetime "image_updated_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.integer  "garage_sale_id"
   end
+
+  add_index "pictures", ["garage_sale_id"], name: "index_pictures_on_garage_sale_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
@@ -87,4 +95,5 @@ ActiveRecord::Schema.define(version: 20150922062920) do
   add_foreign_key "garage_date_times", "garage_sales"
   add_foreign_key "garage_sales", "users"
   add_foreign_key "items", "garage_sales"
+  add_foreign_key "pictures", "garage_sales"
 end
