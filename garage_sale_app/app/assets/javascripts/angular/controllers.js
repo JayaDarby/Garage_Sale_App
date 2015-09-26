@@ -1,6 +1,8 @@
 var app = angular.module('GarageSaleApp');
 
 app.controller('HomeController', function($scope, $location, $http) {
+
+    //find
 	$scope.testing = "It's working!";
 	$scope.garageSales = [];
 	$http.get("/api/garage_sales/garage_sales.json")

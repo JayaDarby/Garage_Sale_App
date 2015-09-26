@@ -4,6 +4,7 @@
         <script src="http://nervgh.github.io/js/es5-shim.min.js"></script>
         <script src="http://nervgh.github.io/js/es5-sham.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <%= javascript_include_tag 'bootstrap-datetimepicker.min.js'  %>
         <!--- <script src="../console-sham.js"></script> --->
 
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -52,38 +53,37 @@
         <%= form_for [@user, @garage_sale], html: { multipart: true } do |f| %>
         <div id='leftNewGarageSale'>
             <%= f.label "Posting Title"%><br />
-            <%= f.text_field :title, :class => 'form-control' %><br />
+            <%= f.text_field :title, :class => 'form-control', :'ng-model' => 'garage_sale.title' %><br />
             <%= f.label "Description" %><br />
-            <%= f.text_area :description, :class => 'form-control' %><br />
+            <%= f.text_area :description, :class => 'form-control',  :'ng-model' => 'garage_sale.description'  %><br />
             <a tabindex="0" id='example' class="btn" role="button" data-toggle="popover" data-trigger="focus" data-content="Your description can include items for sale, prices, driving directions, or parking restrictions"><%= image_tag('questionMark.png')%>  What should My Description Have? </a>
         </div>
-        <div id='rightNewGarageSale'>
+        <div id='rightNewgarage_sale'>
             <%= f.label "Address" %><br />
-            <%= f.text_field :address, :class => 'form-control' %><br />
+            <%= f.text_field :address, :class => 'form-control',  :'ng-model' => 'garage_sale.address'  %><br />
             <%= f.label "City" %><br />
-            <%= f.text_field :city, :class => 'form-control' %><br />
+            <%= f.text_field :city, :class => 'form-control',  :'ng-model' => 'garage_sale.City'  %><br />
             <div style='width:400px'>
                 <div style='float:left'>
             <%= f.label "State" %><br />
-            <%= f.select :state, options_for_select(us_states), :class => 'form-control'%><br />
+            <%= f.select :state, options_for_select(us_states), :class => 'form-control',  :'ng-model' => 'garage_sale.state' %><br />
                 </div>
                 <div style='float:right'>
             <%= f.label "Zip Code" %><br />
-            <%= f.text_field :zip_code, :class => 'form-control' %><br />
+            <%= f.text_field :zip_code, :class => 'form-control',  :'ng-model' => 'garage_sale.zip_code'  %><br />
                 </div>
             </div>
             <%= f.label "Phone Number" %><br />
-            <%= f.telephone_field :phone_number, :class => 'form-control'%><br />
+            <%= f.telephone_field :phone_number, class: 'form-control',  :'ng-model' => 'garage_sale.phoneNumber'  %><br />
             <%= f.label "Email" %><br />
-            <%= f.email_field :email, :class => 'form-control' %><br />
+            <%= f.email_field :email, :class => 'form-control',  :'ng-model' => 'garage_sale.email'  %><br />
             <%= f.label "Users Can Contact Me With:" %><br />
-            <%= f.check_box :can_email %>
+            <%= f.check_box :can_email,  :'ng-model' => 'garage_sale.can_email'  %>
             <%= f.label "Email" %><br />
-            <%= f.check_box :can_call %>
+            <%= f.check_box :can_call,  :'ng-model' => 'garage_sale.can_call'  %>
             <%= f.label "Call" %><br />
-            <%= f.check_box :can_text %>
+            <%= f.check_box :can_text,  :'ng-model' => 'garage_sale.can_text'  %>
             <%= f.label "Text" %><br />
-            <%= f.submit "New Garage Sale",  { :'ng-click' => 'hello()'}  %>
         </div>
         <% end %>
         </div><br>
@@ -135,15 +135,7 @@
                                     <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
                                 </td>
                                 <td nowrap>
-                                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                        <span class="glyphicon glyphicon-upload"></span> Upload
-                                    </button>
-                                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
-                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                                        <span class="glyphicon glyphicon-trash"></span> Remove
-                                    </button>
+                                
                                 </td>
                             </tr>
                         </tbody>
@@ -156,22 +148,32 @@
                                 <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-                            <span class="glyphicon glyphicon-upload"></span> Upload all
-                        </button>
-                        <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                        </button>
-                        <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-                            <span class="glyphicon glyphicon-trash"></span> Remove all
-                        </button>
+
                     </div>
 
                 </div>
 
             </div>
+            <div class="well">
+              <div id="datetimepicker2" class="input-append">
+                <input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
+                <span class="add-on">
+                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                  </i>
+                </span>
+              </div>
+            </div>
+            <script type="text/javascript">
+              $(function() {
+                $('#datetimepicker2').datetimepicker({
+                  language: 'en',
+                  pick12HourFormat: true
+                });
+              });
+            </script>
 
         </div>
+        <button type='submit' ng-click='hello(garage_sale)'></button>
 
 
     </body>

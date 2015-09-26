@@ -4,13 +4,20 @@ Rails.application.routes.draw do
   get 'home' => 'home#index'
   get 'find_items' => 'searches#items'
 
+  get '/signup', to: 'sessions#signup'
+  post '/signup', to: 'sessions#create'
+  get '/login', to: 'sessions#login'
+  post '/login', to: 'sessions#attempt_login'
+  delete '/logout', to: 'sessions#logout'
   
-  resources :users do
+  resources :users, only:[] do
     resources :garage_sales
     resources :items
   end
 
   resources :pictures
+
+
 
   scope '/api' do
     scope '/garage_sales' do
