@@ -14,6 +14,9 @@
 //= require angular/angular-file-upload.min
 //= require angular/app
 //= require angular/controllers
+//= require angular/services
 //= require angular/angularFileUpload
-//= require_tree .
+//= require_tree
+//= require moment
+//= require bootstrap-datetimepicker
 

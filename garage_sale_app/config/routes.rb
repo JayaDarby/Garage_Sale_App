@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  root 'home#index'
   get 'find_garage_sales' => 'searches#garage_sales'
   get 'home' => 'home#index'
   get 'find_items' => 'searches#items'
@@ -8,15 +8,17 @@ Rails.application.routes.draw do
   post '/signup', to: 'sessions#create'
   get '/login', to: 'sessions#login'
   post '/login', to: 'sessions#attempt_login'
-  delete '/logout', to: 'sessions#logout'
+  get '/logout', to: 'sessions#logout'
+  
+  resources :items, only:[:show]
   
   resources :users, only:[] do
-    resources :garage_sales
-    resources :items
+    resources :garage_sales do
+        resources :items
+    end
   end
 
-  resources :pictures
-
+  resources :charges
 
 
   scope '/api' do

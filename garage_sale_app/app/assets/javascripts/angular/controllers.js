@@ -1,43 +1,37 @@
-var app = angular.module('GarageSaleApp');
-
 app.controller('HomeController', function($scope, $location, $http) {
 
     //find
 	$scope.testing = "It's working!";
-	$scope.garageSales = [];
-	$http.get("/api/garage_sales/garage_sales.json")
-    .then(function (data) {
-    	data.data.forEach(function(garageSale){
-    	  if (garageSale.full_address !== null){
-    		$scope.garageSales.push(garageSale.full_address);
-    	  }
-    	});
-    $scope.firstGarageSale = $scope.garageSales[0];
-    }, function(response){
-    	console.log(response);
-    	console.log('error!');
-    });
-    $scope.codeAddresses = function(addresses){
-        console.log(addresses);
-        addresses.forEach(function (address){
-          geocoder.geocode( { 'address': address}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-            setTimeout(function(){
-                var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location,
-                animation: google.maps.Animation.DROP
-                }, 200);
+	$scope.garageSaleAddresses = ['poop', 'pee', 'stinky'];
+    $scope.garageSales = [];
+    $scope.items = [];
 
-            });
-            
-          } else {
-            alert("Geocode was not successful for the following reason: " + status);
-          }
-         });
-
+    $scope.getGarageSales = function(){
+        var distanceMeters;
+    	$http.get("/api/garage_sales/garage_sales.json")
+        .then(function (data) {
+            $scope.garageSales = [];
+            $scope.garageSaleAddresses = [];
+        	data.data.forEach(function(garageSale){
+                distanceMeters = $scope.distance. * 1609.34;
+        	  if (garageSale.full_address !== null){
+        		$scope.garageSaleAddresses.push(garageSale.full_address);
+                $scope.garageSales.push(garageSale)
+        	  }
+        	});
         });
-        
-      };
+    };
+    $scope.getItems = function(){
+        $http.get("/api/items/items.json")
+        .then(function (data) {
+            $scope.items = [];
+            data.data.forEach(function(item){
+              $scope.items.push(item);
+            });
+        });
+    }
+    $scope.firstGarageSale = $scope.garageSales[0];
+    $scope.addItemToCart = function(){
+        $http.get('/api/items/')
+    }
 });

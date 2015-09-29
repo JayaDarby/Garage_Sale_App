@@ -1,10 +1,9 @@
-<h1>Heiiii</h1>
 <style type="text/css">
   html, body {  margin: 0; padding: 0; }
   #map { height: 400px; width:500px; float: left;}
   #searchFilterGarageSales{width:1000px;}
-  .searchFilterMargin{margin-left: 5px;
-                      margin-right: 5px}
+  .searchFilterMargin{margin-left: 10px;
+                      margin-right: 10px}
   #demo{margin-bottom: none}
   .garageFiltersContainer{
 
@@ -17,6 +16,10 @@
     margin-right: 5px;
     width: 22%;
     float: left;
+  }
+  #searchFilterItems{
+    width: 900px;
+    margin:auto;
   }
 </style>
 <script type="text/javascript">
@@ -32,54 +35,46 @@
 <!-- sort by items by what's new, highest price, lowest price -->
 <body>
   <div class='container' ng-controller='HomeController'>
-  <form id='searchFilterGarageSales' class="form-inline" role="form">
-    <div>
-      <span class='searchFilterMargin' ng-model='desiredRadius'>
-        <select class="form-control">
+  <form class="form-inline" role="form">
+    <div id='searchFilterItems'>
+      <div>
+      <span class='searchFilterMargin'>Distance:
+        <select class="form-control" ng-model='distance'>
               <option value="1">1 Mile</option>
               <option value="2">5 Miles</option>
               <option value="3">10 Miles</option>
               <option value="4">30 Miles</option>
         </select>
-        <input type='button' class="btn btn-default" value='Find Garage  Sales' onclick=' getLocalGarageSales()'>
+      </span>
+      <span class='searchFilterMargin'>Pick Up Within:
+        <select class="form-control" ng-model='pickupTime'>
+              <option value="2 Hours">2 hours</option>
+              <option value="6 Months">6 hours</option>
+              <option value="1 Day">1 Day</option>
+              <option value="2 Days">2 Days</option>
+              <option value="1 Week">3 Days</option>
+        </select>
+      </span> 
+      <span class='searchFilterMargin'>Sort By:
+        <select class="form-control" ng-model='sortBy'>
+              <option value="rating">Rating</option>
+              <option value="distance">Distance</option>
+        </select>
       </span>
       <span class='searchFilterMargin'>
-        <input type='text' placeholder='I want to find..' class='form-control' ng-model='itemSearchKeyword'>
-        <button type='button' class='btn btn-default'>Find Items</button>
-      </span> 
-      <span class='searchFilterMargin' ng-model='desiredTimeFrame'>
-        <select class="form-control">
-              <option value="1"></option>
-              <option value="2">5 Miles</option>
-              <option value="3">10 Miles</option>
-              <option value="4">30 Miles</option>
-        </select>
-      <input type='button' class="btn btn-default" value='Find Garage Sales' onclick=' getLocalGarageSales()'>
+        <input type='text' class='form-control' ng-model='searchItem'>
+        <input type='button' class="btn btn-default" value='Find Items' ng-click='getItems()'>
       </span>
-      <form action='/#/find_items'>
-        <button type='button' class='btn btn-default'><a href='/find_items'>Find Items</a></button>
-      </form>
-      
-
-     <!--  <span class="dropdown searchFilterMargin">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          Distance
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><a href="#">1 Mile</a></li>
-          <li><a href="#">5 Miles</a></li>
-          <li><a href="#">10 Miles</a></li>
-          <li><a href="#">30 Miles</a></li>
-        </ul>
-      </span> -->
-    
+    </div>
+    </div>
   </form> 
   <br>
-  <div id="map"></div><br><br>
+  <div id="map"></div>
+  <div style='width:600px; float:right;'>
       <p>you are working are you now?</p>
-    <p>{{garageSales}}</p>
-    <p>{{firstGarageSale}}</p>
+      {{searchItem}}
+      <div ng-hide='items.length==0'>{{items}}</div>
+  </div>
   </div>
   
 <!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->

@@ -3,9 +3,8 @@
         <!-- Fix for old browsers -->
         <script src="http://nervgh.github.io/js/es5-shim.min.js"></script>
         <script src="http://nervgh.github.io/js/es5-sham.min.js"></script>
-        <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-        <%= javascript_include_tag 'bootstrap-datetimepicker.min.js'  %>
         <!--- <script src="../console-sham.js"></script> --->
+
 
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
@@ -18,18 +17,18 @@
             .another-file-over-class { border: dotted 3px green; }
             html, body { height: 100%; }
             #leftNewGarageSale{float:left;
-                                width:730px;}
+                                width:630px;}
             #rightNewGarageSale{float:left;
-                                width:400px;}
+                                width:500px;}
             input[type='checkbox']{
                 width:10px;
             }
 
             input{
-                width: 400px;
+                width: 500px;
             }
             #garage_sale_zip_code{
-                width:200px;
+                width:250px;
             }
             textarea.form-control {
                 width:500px;
@@ -40,6 +39,15 @@
                 width: 500px;
             }
 
+            select {
+                border:1px solid #ccc;
+                vertical-align:top;
+                height:35px;
+            }
+
+            .input-group.date input {
+                width: 470px;
+            }
             
 
         </style>
@@ -47,7 +55,14 @@
         $(document).ready(function(){
             $('[data-toggle="popover"]').popover(); 
         });
+
+        $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                        $('#datetimepicker2').datetimepicker();
+                        $('#datetimepicker3').datetimepicker();
+                    });
         </script>
+        <div hidden ng-model='userId'><%= @user.id  %>'></div>
         <div class='container'>
         <h4>New Garage Sale</h4>
         <%= form_for [@user, @garage_sale], html: { multipart: true } do |f| %>
@@ -55,15 +70,52 @@
             <%= f.label "Posting Title"%><br />
             <%= f.text_field :title, :class => 'form-control', :'ng-model' => 'garage_sale.title' %><br />
             <%= f.label "Description" %><br />
-            <%= f.text_area :description, :class => 'form-control',  :'ng-model' => 'garage_sale.description'  %><br />
-            <a tabindex="0" id='example' class="btn" role="button" data-toggle="popover" data-trigger="focus" data-content="Your description can include items for sale, prices, driving directions, or parking restrictions"><%= image_tag('questionMark.png')%>  What should My Description Have? </a>
+            <%= f.text_area :description, :class => 'form-control',  :'ng-model' => 'garage_sale.description'  %>
+            <a tabindex="0" id='example' class="btn" role="button" data-toggle="popover" data-trigger="focus" data-content="Your description can include items for sale, prices, driving directions, or parking restrictions"><%= image_tag('questionMark.png')%>  What should My Description Have? </a><br><br>
+
+                <div class="row">
+                    <div class='col-sm-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" ng-model='garage_sale.garage_date_time[0]'/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-sm-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker2'>
+                                <input type='text' class="form-control" ng-model='garage_sale.garage_date_time[1]'/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-sm-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker3'>
+                                <input type='text' class="form-control" ng-model='garage_sale.garage_date_time[2]'/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
-        <div id='rightNewgarage_sale'>
+        <div id='rightNewGarageSale'>
             <%= f.label "Address" %><br />
             <%= f.text_field :address, :class => 'form-control',  :'ng-model' => 'garage_sale.address'  %><br />
             <%= f.label "City" %><br />
             <%= f.text_field :city, :class => 'form-control',  :'ng-model' => 'garage_sale.City'  %><br />
-            <div style='width:400px'>
+            <div style='width:500px' class='form-group'>
                 <div style='float:left'>
             <%= f.label "State" %><br />
             <%= f.select :state, options_for_select(us_states), :class => 'form-control',  :'ng-model' => 'garage_sale.state' %><br />
@@ -73,10 +125,11 @@
             <%= f.text_field :zip_code, :class => 'form-control',  :'ng-model' => 'garage_sale.zip_code'  %><br />
                 </div>
             </div>
+            <div class='form-group'>
             <%= f.label "Phone Number" %><br />
             <%= f.telephone_field :phone_number, class: 'form-control',  :'ng-model' => 'garage_sale.phoneNumber'  %><br />
             <%= f.label "Email" %><br />
-            <%= f.email_field :email, :class => 'form-control',  :'ng-model' => 'garage_sale.email'  %><br />
+            <%= f.email_field :email, :class => 'form-control',  :'ng-model' => 'garage_sale.email'  %><br /><br>
             <%= f.label "Users Can Contact Me With:" %><br />
             <%= f.check_box :can_email,  :'ng-model' => 'garage_sale.can_email'  %>
             <%= f.label "Email" %><br />
@@ -84,9 +137,10 @@
             <%= f.label "Call" %><br />
             <%= f.check_box :can_text,  :'ng-model' => 'garage_sale.can_text'  %>
             <%= f.label "Text" %><br />
+            </div>
         </div>
         <% end %>
-        </div><br>
+        </div><br><br>
 
         <div class="container">
             <div class="row">
@@ -154,27 +208,9 @@
                 </div>
 
             </div>
-            <div class="well">
-              <div id="datetimepicker2" class="input-append">
-                <input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
-                <span class="add-on">
-                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                  </i>
-                </span>
-              </div>
-            </div>
-            <script type="text/javascript">
-              $(function() {
-                $('#datetimepicker2').datetimepicker({
-                  language: 'en',
-                  pick12HourFormat: true
-                });
-              });
-            </script>
+        </div><br>
 
-        </div>
-        <button type='submit' ng-click='hello(garage_sale)'></button>
-
+        <button type='submit' ng-click='hello(garage_sale, userId)'></button>
 
     </body>
 </html>

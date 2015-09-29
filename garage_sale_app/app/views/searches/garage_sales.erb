@@ -1,9 +1,9 @@
 <style type="text/css">
   html, body {  margin: 0; padding: 0; }
   #map { height: 400px; width:500px; float: left;}
-  #searchFilterGarageSales{width:1000px;}
-  .searchFilterMargin{margin-left: 5px;
-                      margin-right: 5px}
+  #searchFilterGarageSales{width:1000px; margin:auto;}
+  .searchFilterMargin{margin-left: 15px;
+                      margin-right: 15px}
   #demo{margin-bottom: none}
   .garageFiltersContainer{
 
@@ -22,42 +22,46 @@
   $(function () {
     $('[data-toggle="tooltip"]').tooltip('toggle')
   });
-  console.log('hello i loaded')
 </script>
 
 <!-- filtering garage sales by: distance, date, features(open now, has items for sale online) -->
 <!-- sorting garage sales by rating, distance -->
 <!-- filter by category -->
 <!-- sort by items by what's new, highest price, lowest price -->
-<body>
-  <div class='container' ng-controller='HomeController'>
+<body ng-controller='HomeController'>
+  <div class='container'>
   <form id='searchFilterGarageSales' class="form-inline" role="form">
     <div>
-      <span class='searchFilterMargin' ng-model='desiredRadius'>
+      <div style='float:left;'>
+      <span class='searchFilterMargin' ng-model='distance'>Distance:
         <select class="form-control">
               <option value="1">1 Mile</option>
               <option value="2">5 Miles</option>
               <option value="3">10 Miles</option>
               <option value="4">30 Miles</option>
         </select>
-        <input type='button' class="btn btn-default" value='Find Garage  Sales' onclick=' getLocalGarageSales()'>
       </span>
-      <span class='searchFilterMargin'>
-        <input type='text' placeholder='I want to find..' class='form-control' ng-model='itemSearchKeyword'>
-        <button type='button' class='btn btn-default'>Find Items</button>
-      </span> 
-      <span class='searchFilterMargin' ng-model='desiredTimeFrame'>
-        <select class="form-control">
-              <option value="1"></option>
-              <option value="2">5 Miles</option>
-              <option value="3">10 Miles</option>
-              <option value="4">30 Miles</option>
+      <span class='searchFilterMargin'>Within:
+        <select class="form-control" ng-model='date'>
+              <option value="Today">Today</option>
+              <option value="3">3 Days</option>
+              <option value="7">1 Week</option>
+              <option value="14">2 Weeks</option>
+              <option value="30">1 Month</option>
         </select>
-      <input type='button' class="btn btn-default" value='Find Garage Sales' onclick=' getLocalGarageSales()'>
+      </span> 
+      <span style='margin-right:1em; display:inline-block;' class='searchFilterMargin'>
+        Features:</div><div style='float:left; margin-right:10px;'><input type='checkbox' ng-model='openNow' value='true'> Open Now<br>
+        <input type='checkbox' ng-model='hasItems'>Selling Items Online</div>
       </span>
-      <form action='/#/find_items'>
-        <button type='button' class='btn btn-default'><a href='/find_items'>Find Items</a></button>
-      </form>
+      <span class='searchFilterMargin' ng-model='sortBy'>Sort By:
+        <select class="form-control">
+              <option value="rating">Rating</option>
+              <option value="distance">Distance</option>
+        </select>
+      </span> 
+      <input type='button' class="btn btn-default" value='Find Garage Sales' ng-click='getGarageSales()'>
+    </div>
       
 
      <!--  <span class="dropdown searchFilterMargin">
@@ -75,11 +79,24 @@
     
   </form> 
   <br>
-  <div id="map"></div><br><br>
+  <div id="map"></div>
       <p>you are working are you now?</p>
-    <p>{{garageSales}}</p>
+    <div ng-repeat='n in garageSales track by $index | orderBy:sortBy'>
+      <div>
+      <p>{{n.title}}</p>
+      <p>{{n.description}}</p>
+      <p>{{n.full_address}}</p>
+      </div><br>
+    </div>
+    {{garageSales}}
     <p>{{firstGarageSale}}</p>
+    <div ng-repeat="n in [42, 42, 43, 43] track by $index">
+    {{n}}
+    </div>
   </div>
+  <button onclick='computeDistance()'></button>
+</body>
+</html>
   
 <!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
 
@@ -87,6 +104,16 @@
       var geocoder, map, marker, service, homeLocation;
       var garageSales = [];
       var markersArray = [];
+
+      function computeDistance(){
+        var a= new google.maps.LatLng(5,6)
+        var b= new google.maps.LatLng(5,8)
+      var ee = google.maps.geometry.spherical.computeDistanceBetween(a,b);
+      console.log(ee);
+      console.log('hello')
+
+      }
+
 
       //codeAddresses(scope.garageSales);
 
@@ -165,64 +192,64 @@
       //   });
         
       // }
-        function getLocalGarageSales(){
-          var origin1 = {lat: 55.93, lng: -3.118};
-          var destinationA = 'Stockholm, Sweden';
-          service = new google.maps.DistanceMatrixService;
-            service.getDistanceMatrix({
-               origins: [origin1],
-               destinations: [garageSales],
-               travelMode: google.maps.TravelMode.DRIVING,
-               unitSystem: google.maps.UnitSystem.METRIC,
-               avoidHighways: false,
-               avoidTolls: false
-             }, function(response, status) {
-               if (status !== google.maps.DistanceMatrixStatus.OK) {
-                 alert('Error was: ' + status);
-               } else {
-                 var originList = response.originAddresses;
-                 var destinationList = response.destinationAddresses;
-                 var outputDiv = document.getElementById('output');
-                 outputDiv.innerHTML = '';
-                 deleteMarkers(markersArray);
+        // function getLocalGarageSales(){
+        //   var origin1 = {lat: 55.93, lng: -3.118};
+        //   var destinationA = 'Stockholm, Sweden';
+        //   service = new google.maps.DistanceMatrixService;
+        //     service.getDistanceMatrix({
+        //        origins: [origin1],
+        //        destinations: [garageSales],
+        //        travelMode: google.maps.TravelMode.DRIVING,
+        //        unitSystem: google.maps.UnitSystem.METRIC,
+        //        avoidHighways: false,
+        //        avoidTolls: false
+        //      }, function(response, status) {
+        //        if (status !== google.maps.DistanceMatrixStatus.OK) {
+        //          alert('Error was: ' + status);
+        //        } else {
+        //          var originList = response.originAddresses;
+        //          var destinationList = response.destinationAddresses;
+        //          var outputDiv = document.getElementById('output');
+        //          outputDiv.innerHTML = '';
+        //          deleteMarkers(markersArray);
             
-                 var showGeocodedAddressOnMap = function(asDestination) {
-                   return function(results, status) {
-                     if (status === google.maps.GeocoderStatus.OK) {
-                       //map.fitBounds(bounds.extend(results[0].geometry.location));
-                       markersArray.push(new google.maps.Marker({
-                         map: map,
-                         icon:'https://chart.googleapis.com/chart?' +
-          'chst=d_map_pin_letter&chld=O|FFFF00|000000',
-                         position: results[0].geometry.location,
-                       }));
-                     } else {
-                       alert('Geocode was not successful due to: ' + status);
-                     }
-                   };
-                 };
+        //          var showGeocodedAddressOnMap = function(asDestination) {
+        //            return function(results, status) {
+        //              if (status === google.maps.GeocoderStatus.OK) {
+        //                //map.fitBounds(bounds.extend(results[0].geometry.location));
+        //                markersArray.push(new google.maps.Marker({
+        //                  map: map,
+        //                  icon:'https://chart.googleapis.com/chart?' +
+        //   'chst=d_map_pin_letter&chld=O|FFFF00|000000',
+        //                  position: results[0].geometry.location,
+        //                }));
+        //              } else {
+        //                alert('Geocode was not successful due to: ' + status);
+        //              }
+        //            };
+        //          };
 
-                for (var i = 0; i < originList.length; i++) {
-                    var results = response.rows[i].elements;
-                   // geocoder.geocode({'address': originList[i]},
-                   //     console.log('it worked!'));
-                   for (var j = 0; j < results.length; j++) {
-                     geocoder.geocode({'address': destinationList[j]}, function(results, status) {
-                           if (status == google.maps.GeocoderStatus.OK && results[j].distance.value <       16094) {
-                             showGeocodedAddressOnMap(true);
-                           }
-                         });
-                         //showGeocodedAddressOnMap(true));
-                     outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
-                         ': ' + results[j].distance.text + ' in ' +
-                         results[j].duration.text + '<br>';
-                      }
-                    }
+        //         for (var i = 0; i < originList.length; i++) {
+        //             var results = response.rows[i].elements;
+        //            // geocoder.geocode({'address': originList[i]},
+        //            //     console.log('it worked!'));
+        //            for (var j = 0; j < results.length; j++) {
+        //              geocoder.geocode({'address': destinationList[j]}, function(results, status) {
+        //                    if (status == google.maps.GeocoderStatus.OK && results[j].distance.value <       16094) {
+        //                      showGeocodedAddressOnMap(true);
+        //                    }
+        //                  });
+        //                  //showGeocodedAddressOnMap(true));
+        //              outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
+        //                  ': ' + results[j].distance.text + ' in ' +
+        //                  results[j].duration.text + '<br>';
+        //               }
+        //             }
         
         
-                  }
-                });
-              };
+        //           }
+        //         });
+        //       };
          
 
 
@@ -305,11 +332,9 @@
       
     </script>
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDD39e1frZNIO5-4Rz6dvIHUPyz7FXmQ&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDD39e1frZNIO5-4Rz6dvIHUPyz7FXmQ&libraries=geometry&callback=initMap">
     </script>
-  </div>
-</body>
-</html>
+
 
 
 

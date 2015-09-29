@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925225203) do
+ActiveRecord::Schema.define(version: 20150929083311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,16 +23,14 @@ ActiveRecord::Schema.define(version: 20150925225203) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "garage_date_times", force: :cascade do |t|
-    t.date     "date"
+  create_table "duration_times", force: :cascade do |t|
     t.time     "start_time"
     t.time     "end_time"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "garage_sale_id"
+    t.date     "date"
+    t.datetime "dateTime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-
-  add_index "garage_date_times", ["garage_sale_id"], name: "index_garage_date_times_on_garage_sale_id", using: :btree
 
   create_table "garage_sales", force: :cascade do |t|
     t.string   "address"
@@ -57,6 +55,8 @@ ActiveRecord::Schema.define(version: 20150925225203) do
     t.boolean  "can_text"
     t.boolean  "can_call"
     t.boolean  "can_email"
+    t.decimal  "rating"
+    t.boolean  "has_items"
   end
 
   add_index "garage_sales", ["user_id"], name: "index_garage_sales_on_user_id", using: :btree
@@ -68,9 +68,20 @@ ActiveRecord::Schema.define(version: 20150925225203) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "garage_sale_id"
+    t.text     "name"
+    t.boolean  "active"
   end
 
   add_index "items", ["garage_sale_id"], name: "index_items_on_garage_sale_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal  "subtotal"
+    t.decimal  "tax"
+    t.decimal  "shipping"
+    t.string   "order_status"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "pictures", force: :cascade do |t|
     t.string   "image_file_name"
@@ -92,7 +103,6 @@ ActiveRecord::Schema.define(version: 20150925225203) do
     t.text     "email"
   end
 
-  add_foreign_key "garage_date_times", "garage_sales"
   add_foreign_key "garage_sales", "users"
   add_foreign_key "items", "garage_sales"
   add_foreign_key "pictures", "garage_sales"

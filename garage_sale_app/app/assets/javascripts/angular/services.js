@@ -5,3 +5,11 @@ app.service('GarageSale', ['$resource', function($resource) {
     {update: {method: "PUT"}} 
   );
 }]);
+
+app.service('Item', ['$resource', function($resource) {
+  return $resource(
+    "/api/items/:id.json",
+    {id: "@id"},
+    {update: {method: "PUT"}} 
+  );
+}]);
