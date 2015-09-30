@@ -37,7 +37,7 @@ gem 'bcrypt'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'dotenv-rails', :groups => [:development, :test]
-
+gem 'aws-sdk'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -56,6 +56,6 @@ group :development, :test do
   gem 'spring'
 
 
-  gem "paperclip", "~> 4.3"
+  gem "paperclip"
 end
 
