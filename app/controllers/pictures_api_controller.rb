@@ -29,5 +29,4 @@ class PicturesApiController < ApplicationController
   		def image_params
   			
   		end
-  	end
 end
