@@ -2,7 +2,7 @@ app.controller('HomeController', function($scope, $location, $http) {
 
     //find
 	$scope.testing = "It's working!";
-	$scope.garageSaleAddresses = ['poop', 'pee', 'stinky'];
+	$scope.garageSaleAddresses = [];
     $scope.garageSales = [];
     $scope.items = [];
 
@@ -13,7 +13,7 @@ app.controller('HomeController', function($scope, $location, $http) {
             $scope.garageSales = [];
             $scope.garageSaleAddresses = [];
         	data.data.forEach(function(garageSale){
-                distanceMeters = $scope.distance. * 1609.34;
+                $scope.distanceMeters = parseInt($scope.distance)*1609.34;
         	  if (garageSale.full_address !== null){
         		$scope.garageSaleAddresses.push(garageSale.full_address);
                 $scope.garageSales.push(garageSale)

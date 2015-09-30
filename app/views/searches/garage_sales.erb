@@ -17,6 +17,11 @@
     width: 22%;
     float: left;
   }
+  #results {
+    width:600px;
+    float:right;
+  }
+
 </style>
 <script type="text/javascript">
   $(function () {
@@ -33,12 +38,12 @@
   <form id='searchFilterGarageSales' class="form-inline" role="form">
     <div>
       <div style='float:left;'>
-      <span class='searchFilterMargin' ng-model='distance'>Distance:
-        <select class="form-control">
+      <span class='searchFilterMargin'>Distance:
+        <select class="form-control" ng-model='distance'>
               <option value="1">1 Mile</option>
-              <option value="2">5 Miles</option>
-              <option value="3">10 Miles</option>
-              <option value="4">30 Miles</option>
+              <option value="5">5 Miles</option>
+              <option value="10">10 Miles</option>
+              <option value="30">30 Miles</option>
         </select>
       </span>
       <span class='searchFilterMargin'>Within:
@@ -52,7 +57,7 @@
       </span> 
       <span style='margin-right:1em; display:inline-block;' class='searchFilterMargin'>
         Features:</div><div style='float:left; margin-right:10px;'><input type='checkbox' ng-model='openNow' value='true'> Open Now<br>
-        <input type='checkbox' ng-model='hasItems'>Selling Items Online</div>
+        <input type='checkbox' ng-model='hasItems'> Selling Items Online</div>
       </span>
       <span class='searchFilterMargin' ng-model='sortBy'>Sort By:
         <select class="form-control">
@@ -79,22 +84,22 @@
     
   </form> 
   <br>
-  <div id="map"></div>
-      <p>you are working are you now?</p>
-    <div ng-repeat='n in garageSales track by $index | orderBy:sortBy'>
-      <div>
-      <p>{{n.title}}</p>
-      <p>{{n.description}}</p>
-      <p>{{n.full_address}}</p>
-      </div><br>
-    </div>
-    {{garageSales}}
-    <p>{{firstGarageSale}}</p>
-    <div ng-repeat="n in [42, 42, 43, 43] track by $index">
-    {{n}}
+  <div class='container'>
+    <div id="map"></div>
+    <div id='results'>
+      <div ng-repeat='n in garageSales track by $index'>
+        <div>
+        <p>{{n.title}}</p>
+        <p>{{n.description}}</p>
+        <p>{{n.full_address}}</p>
+        <p>Distance meters: {{distanceMeters}}</p>
+        </div><br>
+      </div>
+      {{garageSales}}
+      <p>{{firstGarageSale}}</p>
+      <button onclick='computeDistance()'></button>
     </div>
   </div>
-  <button onclick='computeDistance()'></button>
 </body>
 </html>
   
