@@ -65,7 +65,7 @@
               <option value="distance">Distance</option>
         </select>
       </span> 
-      <input type='button' class="btn btn-default" value='Find Garage Sales' ng-click='getGarageSales()'>
+      <input type='button' class="btn btn-default" value='Find Garage Sales' ng-click='getGarageSales(homeLong, homeLat)'>
     </div>
       
 
@@ -106,7 +106,7 @@
 <!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
 
     <script type="text/javascript">
-      var geocoder, map, marker, service, homeLocation;
+      var geocoder, map, marker, service, homeLocation, homeLat, homeLong;
       var garageSales = [];
       var markersArray = [];
 
@@ -118,7 +118,7 @@
       console.log('hello')
 
       }
-
+  
 
       //codeAddresses(scope.garageSales);
 
@@ -143,10 +143,13 @@
         ///*********------GETS YOUR LOCATION------**********
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
+            homeLat = position.coords.latitude;
+            homeLong = position.coords.longitude;
             var myLocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
+            console.log('my location is '+ myLocation.lat + '' + myLocation.lng)
             homeLocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude

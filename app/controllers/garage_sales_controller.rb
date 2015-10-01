@@ -22,7 +22,7 @@ class GarageSalesController < ApplicationController
   	if params[:user_id]
   	  @user = User.find_by_id(params[:user_id])
   	  @garage_sale = @user.garage_sales.new
-      #@date_times = @garage_sale.garage_date_times.build
+      3.times {@garage_sale.duration_times.build}
       @picture = @garage_sale.pictures.new
   	end
   end

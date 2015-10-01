@@ -72,7 +72,8 @@
             <%= f.label "Description" %><br />
             <%= f.text_area :description, :class => 'form-control',  :'ng-model' => 'garage_sale.description'  %>
             <a tabindex="0" id='example' class="btn" role="button" data-toggle="popover" data-trigger="focus" data-content="Your description can include items for sale, prices, driving directions, or parking restrictions"><%= image_tag('questionMark.png')%>  What should My Description Have? </a><br><br>
-
+              <%= f.fields_for :duration_times do |builder| %>
+                <%= builder.time_field :start_time %>
                 <div class="row">
                     <div class='col-sm-6'>
                         <div class="form-group">
@@ -85,30 +86,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class='col-sm-6'>
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker2'>
-                                <input type='text' class="form-control" ng-model='garage_sale.garage_date_time[1]'/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class='col-sm-6'>
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker3'>
-                                <input type='text' class="form-control" ng-model='garage_sale.garage_date_time[2]'/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <% end %>
+              <input type="time" name="garage_sale[duration_times_attributes][0][start_time]" id="garage_sale_duration_times_attributes_0_start_time">
+                
         </div>
         <div id='rightNewGarageSale'>
             <%= f.label "Address" %><br />

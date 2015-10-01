@@ -5,4 +5,5 @@ class GarageSale < ActiveRecord::Base
   	has_many :pictures
   	has_many :duration_times
   	has_many :items
+  	accepts_nested_attributes_for :duration_times
 end
