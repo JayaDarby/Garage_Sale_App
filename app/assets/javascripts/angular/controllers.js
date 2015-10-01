@@ -38,7 +38,7 @@ app.controller('HomeController', function($scope, $location, $http, $window) {
                                 //console.log(a)
                                 //console.log(results[0].geometry.location)
                                 marker = new google.maps.Marker({
-                                   draggable:true,
+                                   draggable:false,
                                    position: results[0].geometry.location,
                                    map: map,
                                    title: 'Your Location',

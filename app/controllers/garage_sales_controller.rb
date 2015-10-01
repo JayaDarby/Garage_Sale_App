@@ -22,7 +22,7 @@ class GarageSalesController < ApplicationController
   	if params[:user_id]
   	  @user = User.find_by_id(params[:user_id])
   	  @garage_sale = @user.garage_sales.new
-      3.times {@garage_sale.duration_times.build}
+      3.times { @garage_sale.duration_times.build }
       @picture = @garage_sale.pictures.new
   	end
   end
@@ -32,7 +32,11 @@ class GarageSalesController < ApplicationController
   	@garage_sale = @user.garage_sales.create(garage_sale_params)
   	@garage_sale.full_address = @garage_sale.address.to_s + ', ' + @garage_sale.city.to_s + ', ' + @garage_sale.state.to_s + ' ' + @garage_sale.zip_code.to_s
   	if @garage_sale.save
-  		render json: @garage_sale, status: :ok 
+        if @garage_sale.wants_to_sell == true
+          redirect_to new_user_garage_sale_item_path(@user, @garage_sale)
+        else
+  		    render json: @garage_sale, status: :ok 
+        end
       #user_garage_sale_path(@user, @garage_sale), flash:{success:'Garage sale successfully created!'}
   	else
   		render :new
@@ -69,7 +73,13 @@ private
 			:state,
 			:zip_code,
 			:description,
-			:photo
+			:phone_number,
+      :email,
+      :can_text,
+      :can_call,
+      :can_email,
+      :wants_to_sell,
+      duration_times_attributes: [:date, :start_time, :end_time],
 		)
 	end
 end

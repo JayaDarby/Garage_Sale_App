@@ -130,7 +130,7 @@
    		    <li><div id='shopNavCenter'><i class="fa fa-shopping-cart"></i></div></li>
    		  </ul>
 	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#">Post a Garage Sale</a></li>
+	        <li><%= link_to 'Post a Garage Sale', new_user_garage_sale_path(session[:user_id]) %></li>
 	      </ul>
 	      
 	    </div><!-- /.navbar-collapse -->

@@ -48,7 +48,7 @@
       #searchGarageLink{
         width:150px;
         text-align: center;
-        margin: 0 auto;
+        margin:auto;
       }
 
       .navbar-inverse .navbar-nav>li>a {
@@ -61,6 +61,13 @@
         color:white;
       }
 
+      #catchPhrase{
+        font-size: 25px;
+      }
+      #homeButton {
+        width:150px;
+        margin:0 auto;
+      }
     </style>
   </head>
   <body ng-controller='HomeController'>
@@ -69,6 +76,7 @@
     <!-- <img src="/app/assets/images/garagesaleimages/homepage.jpg"> -->
     <h1 id='brandName'><strong>The Whole Nine YardSales</strong></h1>
     <p id='catchPhrase'>"One man's trash is another man's treasure"</p>
+    <div id='homeButton'><a href='/find_garage_sales'><button type='button', class='btn btn-default'>Find Garage Sales</button></a></div>
     <div id='space'></div>
     <div
         class="fb-like"

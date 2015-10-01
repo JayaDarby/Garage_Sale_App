@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001082042) do
+ActiveRecord::Schema.define(version: 20151001193516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,9 +31,11 @@ ActiveRecord::Schema.define(version: 20151001082042) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.integer  "garage_sale_id"
+    t.integer  "item_id"
   end
 
   add_index "duration_times", ["garage_sale_id"], name: "index_duration_times_on_garage_sale_id", using: :btree
+  add_index "duration_times", ["item_id"], name: "index_duration_times_on_item_id", using: :btree
 
   create_table "garage_sales", force: :cascade do |t|
     t.string   "address"
@@ -60,6 +62,7 @@ ActiveRecord::Schema.define(version: 20151001082042) do
     t.boolean  "can_email"
     t.decimal  "rating"
     t.boolean  "has_items"
+    t.boolean  "wants_to_sell"
   end
 
   add_index "garage_sales", ["user_id"], name: "index_garage_sales_on_user_id", using: :btree
@@ -107,6 +110,7 @@ ActiveRecord::Schema.define(version: 20151001082042) do
   end
 
   add_foreign_key "duration_times", "garage_sales"
+  add_foreign_key "duration_times", "items"
   add_foreign_key "garage_sales", "users"
   add_foreign_key "items", "garage_sales"
   add_foreign_key "pictures", "garage_sales"

@@ -1,4 +1,29 @@
-<h2>New Item for Sale</h2>
+<style type="text/css">
+            .dateFormat{
+                width:150px;
+            }
+            .allItemsFormat{
+                width:500px;
+            }
+            .allItemsFloat{
+                float:left;
+            }
+            .more{
+                width: 200px;
+            }
+            h4{
+                font-family: 'Lobster';
+                text-align: center;
+                font-size: 40px;
+            }
+            textarea.form-control {
+                width:500px;
+                height:150px;
+                border-radius: 3px;
+            }
+</style>
+
+<h4>New Item for Sale</h4>
     <div class='container'>
         <% now = Time.new %>
         <div style='width:500px; float:left';>
@@ -6,31 +31,48 @@
         <%= f.label "Posting Name"%><br />
         <%= f.text_field :name, :class => 'form-control', :'ng-model' => 'item.name' %>
         <%= f.label "Price"%><br />
-        <%= f.number_field :price, :class => 'form-control',:min => "0.01", :step => "0.01", :'ng-model' => 'item.price' %>
+        <%= f.number_field :price, :class => 'form-control',:min => "0.01", :step => "0.01", :'ng-model' => 'item.price' %><br>
+        <p>When can the buyer pick up your item? (Select up to 3 times)</p>
+        <%= f.fields_for :duration_times do |builder| %>
+              <div class='allItemsFormat'>
+                <div class='allItemsFloat'>
+                <%= builder.label :date, 'Date'%><br>
+                <%= builder.date_field :date,  :class => 'form-control dateFormat more'%>
+                </div>
+                <div class='allItemsFloat'>
+                <%= builder.label :start_time, 'Start Time'%><br>
+                <%= builder.time_field :start_time, :class => 'form-control dateFormat'%>
+                </div>
+                <div class='allItemsFloat'>
+                <%= builder.label :end_time, 'End Time'%><br>
+                <%= builder.time_field :end_time, :class => 'form-control dateFormat' %>
+                </div><br><br>
+              </div><br>
+              <% end %>
         </div>
         <div style='width:500px; float:right;'>
         <%= f.label "Description" %><br />
-        <%= f.text_area :description, :class => 'form-control',  :'ng-model' => 'item.description'  %>
-        <%= f.submit %>
+        <%= f.text_area :description, :class => 'form-control',  :'ng-model' => 'item.description'  %><br>
+        <%= f.submit 'Post Your Item', :class => 'btn btn-default'%>
         </div>
         <% end %>
     </div>
 
 
-        <div class="container">
+<!--         <div class="container">
             <div class="row">
                 <div class="col-md-3">
                     <h3>Select Photos</h3>
                     <div ng-show="uploader.isHTML5">
                         <!-- 3. nv-file-over uploader="link" over-class="className" -->
-                        <!-- Example: nv-file-drop="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                        <!-- Example: nv-file-drop="" uploader="{Object}" options="{Object}" filters="{String}"
                         <div nv-file-drop="" uploader="uploader" options="{ url: '/foo' }">
                             <div nv-file-over="" uploader="uploader" over-class="another-file-over-class" class="well my-drop-zone">
                                 Drag Images Here
                             </div>
                         </div>
                     </div>
-                    <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                    <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" 
                     <input type="file" nv-file-select="" uploader="uploader" multiple  /><br/>
                 </div>
 
@@ -83,4 +125,4 @@
                 </div>
 
             </div>
-        </div>
+        </div> -->

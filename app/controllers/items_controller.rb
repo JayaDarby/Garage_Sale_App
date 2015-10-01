@@ -8,7 +8,8 @@ class ItemsController < ApplicationController
   def new
   	 @user = User.find_by_id(params[:user_id])
   	 @garage_sale = GarageSale.find_by_id(params[:garage_sale_id])
-     @item = Item.new
+     @item = @garage_sale.items.new
+     3.times {@item.duration_times.build}
   end
 
   def create
