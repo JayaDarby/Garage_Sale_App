@@ -1,19 +1,17 @@
 class PicturesController < ApplicationController
-  # GET /uploads
-  # GET /uploads.json
+  # GET /pictures
+  # GET /pictures.json
   def index
     @pictures = Picture.all
 
-
     respond_to do |format|
-      binding.pry
       format.html # index.html.erb
-      format.json { render json: @pictures.map{|upload| upload.to_jq_upload } }
+      format.json { render json: @pictures.map{|picture| picture.to_jq_picture } }
     end
   end
 
-  # GET /uploads/1
-  # GET /uploads/1.json
+  # GET /pictures/1
+  # GET /pictures/1.json
   def show
     @picture = Picture.find(params[:id])
 
@@ -23,35 +21,35 @@ class PicturesController < ApplicationController
     end
   end
 
-  # GET /uploads/new
-  # GET /uploads/new.json
+  # GET /pictures/new
+  # GET /pictures/new.json
   def new
     @picture = Picture.new
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @picture }
     end
   end
 
-  # GET /uploads/1/edit
+  # GET /pictures/1/edit
   def edit
     @picture = Picture.find(params[:id])
   end
 
-  # POST /uploads
-  # POST /uploads.json
+  # POST /pictures
+  # POST /pictures.json
   def create
-    @picture = Picture.create(params[:upload])
-    binding.pry
+    @picture = Picture.new(params[:image])
+
     respond_to do |format|
       if @picture.save
-        binding.pry
         format.html {
-          render :json => [@picture.to_jq_upload].to_json,
+          render :json => [@picture.to_jq_picture].to_json,
           :content_type => 'text/html',
           :layout => false
         }
-        #format.json { render json: {files: [@picture.to_jq_upload]}, status: :created, location: @picture }
+        format.json { render json: {files: [@picture.to_jq_picture]}, status: :created, location: @picture }
       else
         format.html { render action: "new" }
         format.json { render json: @picture.errors, status: :unprocessable_entity }
@@ -59,14 +57,14 @@ class PicturesController < ApplicationController
     end
   end
 
-  # PUT /uploads/1
-  # PUT /uploads/1.json
+  # PUT /pictures/1
+  # PUT /pictures/1.json
   def update
-    @picture = Picture.find(params[:id])
+    @picture = picture.find(params[:id])
 
     respond_to do |format|
-      if @picture.update_attributes(params[:upload])
-        format.html { redirect_to @picture, notice: 'Upload was successfully updated.' }
+      if @picture.update_attributes(params[:picture])
+        format.html { redirect_to @picture, notice: 'picture was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -75,14 +73,14 @@ class PicturesController < ApplicationController
     end
   end
 
-  # DELETE /uploads/1
-  # DELETE /uploads/1.json
+  # DELETE /pictures/1
+  # DELETE /pictures/1.json
   def destroy
-    @picture = Picture.find(params[:id])
+    @picture = picture.find(params[:id])
     @picture.destroy
 
     respond_to do |format|
-      format.html { redirect_to uploads_url }
+      format.html { redirect_to pictures_url }
       format.json { head :no_content }
     end
   end

@@ -1,29 +1,97 @@
 class PicturesApiController < ApplicationController
-	def index
+	  def index
 	   	@pictures = Picture.all
-        render json: @items, status: :ok
+        render json: @pictures, status: :ok
     end
 
     def show
         @picture = Picture.find(params[:id])
-        render json: @item, status: :ok
+        render json: @picture, status: :ok
     end
 
-    def create
-        @picture.create(image_params)
-        render json: @item, status: :ok
-    end
+  # def index
+  #   @pictures = Picture.all
 
-    def create
-    	@user = User.find_by_id(params[:user_id])
-  		@picture = @user.garage_sales.create(garage_sale_params)
-  		@garage_sale.full_address = @garage_sale.address.to_s + ', ' + @garage_sale.city.to_s + ', ' + @garage_sale.state.to_s + ' ' + @garage_sale.zip_code.to_s
-  		if @garage_sale.save
-  			redirect_to user_garage_sale_path(@user, @garage_sale), flash:{success:'Garage sale successfully created!'}
-  		else
-  			render :new
-  		end
-  	end
+  #   respond_to do |format|
+  #     format.html # index.html.erb
+  #     format.json { render json: @pictures.map{|picture| picture.to_jq_picture } }
+  #   end
+  # end
+
+  # # GET /pictures/1
+  # # GET /pictures/1.json
+  # def show
+  #   @picture = Picture.find(params[:id])
+
+  #   respond_to do |format|
+  #     format.html # show.html.erb
+  #     format.json { render json: @picture }
+  #   end
+  # end
+
+  # GET /pictures/new
+  # GET /pictures/new.json
+  def new
+    @picture = Picture.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @picture }
+    end
+  end
+
+  # GET /pictures/1/edit
+  def edit
+    @picture = Picture.find(params[:id])
+  end
+
+  # POST /pictures
+  # POST /pictures.json
+  def create
+    @picture = Picture.new(params[:picture][:image])
+    respond_to do |format|
+      if @picture.save
+        format.html {
+          render :json => [@picture.to_jq_picture].to_json,
+          :content_type => 'text/html',
+          :layout => false
+        }
+        format.json { render json: {files: [@picture.to_jq_picture]}, status: :created, location: @picture }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @picture.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /pictures/1
+  # PUT /pictures/1.json
+  def update
+    @picture = picture.find(params[:id])
+
+    respond_to do |format|
+      if @picture.update_attributes(params[:picture])
+        format.html { redirect_to @picture, notice: 'picture was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @picture.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /pictures/1
+  # DELETE /pictures/1.json
+  def destroy
+    @picture = picture.find(params[:id])
+    @picture.destroy
+
+    respond_to do |format|
+      format.html { redirect_to pictures_url }
+      format.json { head :no_content }
+    end
+  end
+
 
   	private
   		def image_params
