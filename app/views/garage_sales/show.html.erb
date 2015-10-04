@@ -3,3 +3,32 @@
 <%= image_tag @garage_sale.photo.url(:small) %>
 <%= @garage_sale.id  %>
 <%= link_to "Delete", user_garage_sale_path(@user, @garage_sale), method: :delete, data: {confirm: "are you sure?"} %>
+<style type="text/css">
+  h2 {
+  	text-align: center;
+  	font-family: 'Lobster';
+  }
+</style>
+
+<%= @garage_sale.duration_times[0].date %>
+<div class='container'>
+	<div style='width:500px; float:left;'>
+		<h2><%= @garage_sale.title  %></h2>
+		<img src='<%= @garage_sale.image_url  %>' style='width:500px'>
+		<div><%= @garage_sale.address  %></div>
+		<div><%= @garage_sale.city  %>, <%= @garage_sale.state  %> <%= @garage_sale.zip_code  %></div>
+		<div><%= @garage_sale.description  %></div>
+		<div><%= @garage_sale.description  %></div>
+		<div><%= @garage_sale.phone_number  %></div>
+		<div><%= @garage_sale.email  %></div>
+	</div>
+	<div style='width:600px; float:right;'>
+		<% if @garage_sale.has_items %>
+		<h2>Items for Sale</h2>
+		<% @items.each do |item| %>
+			<div><%= item.name %><div>
+		<%  %>
+		<% end %>
+		<% end %>
+	</div>
+</div>

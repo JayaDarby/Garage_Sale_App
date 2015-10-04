@@ -8,6 +8,7 @@ class GarageSalesController < ApplicationController
   def show
   	@garage_sale = GarageSale.where(id: params[:id])[0]
   	@user = User.where(id: params[:user_id])
+    @items = Item.where(garage_sale_id: @garage_sale.id)
   end
 
 
@@ -42,7 +43,8 @@ class GarageSalesController < ApplicationController
          if @garage_sale.wants_to_sell == true
            redirect_to new_user_garage_sale_item_path(@user, @garage_sale)
          else
-  		     redirect_to home_path,  flash[:notice] = "Garage Sale successfully created"
+  		     flash[:notice] = 'Successfully checked in'
+          redirect_to home_path
          end
        #user_garage_sale_path(@user, @garage_sale), flash:{success:'Garage sale successfully created!'}
   	else

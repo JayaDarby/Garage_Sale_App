@@ -40,7 +40,7 @@
   .garageContainer{
     width: 600px;
     border: 1px solid black;
-    border-radius: 3px;
+    border-radius: 20px;
     overflow:hidden;
 
   }
@@ -75,6 +75,7 @@
     display: inline;
     padding: 10px;
     float:left;
+    border-radius: 20px;
   }
 
   .garageDescription{
@@ -142,7 +143,7 @@
           <li><a href="#">30 Miles</a></li>
         </ul>
       </span> -->
-    
+    <button ng-click = 'gs()'></button>
   </form> 
   <br>
   <div class='container'>
@@ -157,9 +158,9 @@
           <div style='width:220px; float:left; margin-right:10px;'>
             <img class='garageImages' src='{{n.image_url}}'>
           </div>
-          <div style='width:360px; float:left'>
+          <h4>{{n.title}}</h4>
+          <div style='width:180px; float:left'>
             <div style='float:left'>
-              <h4 style='width:380px;'>{{n.title}}</h4>
               <div>{{n.address}}</div>
               <div>{{n.city}}, {{n.state}} {{n.zip_code}}</div>
               <div><span class='glyphicon glyphicon-tag'> </span>
@@ -173,20 +174,22 @@
               </div>
             </div>
           </div>
-          <div style='width:180px; float:right;'>
+          <div style='width:170px; float:left;'>
                 <%= link_to 'View this garage sale', 'garage_sales/' +'{{n.id}}' %>
+                <span ng-repeat="task in n.duration_times">
+                  <span>{{task}}</span>
+                </span>
             </div>
           <div class='garageDescription'>
             <span>Description:</span>
             <span>{{n.description}} asduhf aosidj foaisdjf aoisdj foisdjf ao;isdj fao;sidj foaisdjf ao;isdjf aos;idjf as;oid fj</span>
           </div>
         </div><br>
-
     </div>
 </body>
 </html>
   
-<!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
+<!-- <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
 
     <script type="text/javascript">
       var geocoder, map, marker, service, homeLocation, homeLat, homeLong;

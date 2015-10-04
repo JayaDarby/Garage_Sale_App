@@ -6,6 +6,12 @@ app.controller('HomeController', function($scope, $location, $http, $window) {
     $scope.garageSales = [];
     $scope.items = [];
 
+    $scope.gs = function(){
+        $scope.garageSales.forEach(function(sale){
+            console.log(sale)
+        });
+    };
+
 
     $scope.getGarageSales = function(){
         var distanceMeters;
