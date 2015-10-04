@@ -31,13 +31,20 @@ class GarageSalesController < ApplicationController
   	@user = User.find_by_id(params[:user_id])
   	@garage_sale = @user.garage_sales.create(garage_sale_params)
   	@garage_sale.full_address = @garage_sale.address.to_s + ', ' + @garage_sale.city.to_s + ', ' + @garage_sale.state.to_s + ' ' + @garage_sale.zip_code.to_s
+
   	if @garage_sale.save
-        if @garage_sale.wants_to_sell == true
-          redirect_to new_user_garage_sale_item_path(@user, @garage_sale)
-        else
-  		    render json: @garage_sale, status: :ok 
-        end
-      #user_garage_sale_path(@user, @garage_sale), flash:{success:'Garage sale successfully created!'}
+        # puts 'THE PARAMS IMAGE IS'
+        # puts params[:image]
+        # params[:image].each do |picture|      
+        #   @garage_sale.pictures.create(:image=> picture)
+        #   # Don't forget to mention :avatar(field name)
+        # end
+         if @garage_sale.wants_to_sell == true
+           redirect_to new_user_garage_sale_item_path(@user, @garage_sale)
+         else
+  		     redirect_to home_path,  flash[:notice] = "Garage Sale successfully created"
+         end
+       #user_garage_sale_path(@user, @garage_sale), flash:{success:'Garage sale successfully created!'}
   	else
   		render :new
   	end
@@ -79,6 +86,7 @@ private
       :can_call,
       :can_email,
       :wants_to_sell,
+      :image,
       duration_times_attributes: [:date, :start_time, :end_time],
 		)
 	end

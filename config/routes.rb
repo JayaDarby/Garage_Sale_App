@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#attempt_login'
   get '/logout', to: 'sessions#logout'
   
-  resources :items, only:[:show]
+  resources :items, only:[:show];
+  resources :garage_sales, only:[:show]
   
   resources :users, only:[] do
     resources :garage_sales do

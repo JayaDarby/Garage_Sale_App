@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001193516) do
+ActiveRecord::Schema.define(version: 20151003092107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20151001193516) do
     t.decimal  "rating"
     t.boolean  "has_items"
     t.boolean  "wants_to_sell"
+    t.text     "image_url"
   end
 
   add_index "garage_sales", ["user_id"], name: "index_garage_sales_on_user_id", using: :btree
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20151001193516) do
     t.integer  "garage_sale_id"
     t.text     "name"
     t.boolean  "active"
+    t.text     "full_address"
   end
 
   add_index "items", ["garage_sale_id"], name: "index_items_on_garage_sale_id", using: :btree

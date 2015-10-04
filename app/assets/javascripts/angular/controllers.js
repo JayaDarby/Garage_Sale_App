@@ -3,7 +3,7 @@ app.controller('HomeController', function($scope, $location, $http, $window) {
     //find
 	$scope.testing = "It's working!";
 	$scope.garageSaleAddresses = [];
-    $scope.garageSales = ['randomStuff'];
+    $scope.garageSales = [];
     $scope.items = [];
 
 
@@ -18,22 +18,28 @@ app.controller('HomeController', function($scope, $location, $http, $window) {
       //   var b= new google.maps.LatLng(5,8)
       // var ee = google.maps.geometry.spherical.computeDistanceBetween(a,b);
         .then(function (data) {
-            $scope.distanceMeters = parseInt($scope.distance)*1609.34;
+            $scope.distanceMeters = parseInt($scope.garageDistance)*1609.34;
         	data.data.forEach(function(garageSale){
         	  if (garageSale.full_address !== null){
-                //console.log(garageSale.full_address);
+                                
+                                    $scope.garageSales.push(garageSale);
+                                
+               
                 //console.log(garageSale.full_address.split(' ').join('+'));
-                if ($scope.hasItems && garageSale.has_items || !$scope.hasItems && !garageSale.has_items){
+               // if ($scope.hasItems && garageSale.has_items || !$scope.hasItems && !garageSale.has_items){
                     geocoder.geocode({'address':garageSale.full_address}, function(results, status){
+                        if(garageSale.id === 123)
+                            console.log(status);
                         if (status == google.maps.GeocoderStatus.OK){
                             a = new google.maps.LatLng($window.homeLat, $window.homeLong);
                             //console.log('the results are'+ results[0].geometry.location)
                             ee = google.maps.geometry.spherical.computeDistanceBetween(results[0].geometry.location, a);
                             if (ee < $scope.distanceMeters){
-            
-                                $scope.$apply(function () {
-                                    $scope.garageSales.push(garageSale);
-                                });
+                                
+                                // $scope.$apply(function () {
+                                //     $scope.garageSales.push(garageSale);
+                                // });
+                            
                             
                                 //console.log(a)
                                 //console.log(results[0].geometry.location)
@@ -44,18 +50,22 @@ app.controller('HomeController', function($scope, $location, $http, $window) {
                                    title: 'Your Location',
                                    animation: google.maps.Animation.DROP,
                                 });
-                            }
+                            };
+                          }
+                          else{
+                           // console.log(garageSale)
+                          }
     
                             //console.log(results[0].geometry.location)
-                        }
-                    });
-                }
+                        });
+                   // };
+                };
         		//$scope.garageSaleAddresses.push(garageSale.full_address);
                 //$scope.garageSales.push(garageSale)
-        	  }
+        	  });
         	}); 
-        });
-    };
+    }
+
     $scope.getItems = function(){
         $http.get("/api/items/items.json")
         .then(function (data) {
@@ -67,6 +77,7 @@ app.controller('HomeController', function($scope, $location, $http, $window) {
     }
     $scope.firstGarageSale = $scope.garageSales[0];
     $scope.addItemToCart = function(){
-        $http.get('/api/items/')
+    
     }
+
 });

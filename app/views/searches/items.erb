@@ -29,6 +29,7 @@
   console.log('hello i loaded')
 </script>
 
+
 <!-- filtering garage sales by: distance, date, features(open now, has items for sale online) -->
 <!-- sorting garage sales by rating, distance -->
 <!-- filter by category -->
@@ -62,18 +63,30 @@
         </select>
       </span>
       <span class='searchFilterMargin'>
-        <input type='text' class='form-control' ng-model='searchItem'>
+        <input type='text' class='form-control' ng-model='theSearch'>
         <input type='button' class="btn btn-default" value='Find Items' ng-click='getItems()'>
       </span>
     </div>
     </div>
   </form> 
-  <br>
+  <br><br>
   <div id="map"></div>
   <div style='width:600px; float:right;'>
-      <p>you are working are you now?</p>
-      {{searchItem}}
-      <div ng-hide='items.length==0'>{{items}}</div>
+      <div ng-repeat='n in items | filter:theSearch track by $index' class='repeated-item'ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
+        <div style='width:600px'>
+          <div style='width:200px; float:left; margin-right:10px;'>
+          <div>{{n.images[0]}}</div>
+          <div>{{n.name}}</div>
+          <div>Price: {{n.price | currency }}</div>
+          <%= link_to 'View this item', 'items/' +'{{n.id}}' %>
+          </div>
+          <div style='width:350px float:left;'>
+          <div>{{n.description}}</div>
+          </div>
+        </div>
+        <br><br>
+      </div>
+      <div ng-hide='items.length==0'></div>
   </div>
   </div>
   

@@ -21,6 +21,72 @@
     width:600px;
     float:right;
   }
+  #mapTitle{
+    float: left;
+    width:500px;
+    text-align: center;
+    font-family: 'Lobster'
+  }
+
+  #listingsTitle{
+    width: 600px;
+    float:right;
+    text-align: center;
+    font-family: 'Lobster'
+  }
+  h3{
+    font-size: 30px;
+  }
+  .garageContainer{
+    width: 600px;
+    border: 1px solid black;
+    border-radius: 3px;
+    overflow:hidden;
+
+  }
+  .animation.ng-enter {
+    -webkit-transition: 1s;
+    opacity: 0;
+  }
+  
+  .animation.ng-enter-stagger {
+    transition-delay: 0.2s;
+  }
+  
+  .animation.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+
+  #garageTitles {
+    margin-bottom: 70px;
+  }
+
+  #searchFilterGarageSales {
+
+  }
+
+  #map {
+    border-radius: 30px;
+  }
+
+  .garageImages {
+    height:160px;
+    width: 220px;
+    display: inline;
+    padding: 10px;
+    float:left;
+  }
+
+  .garageDescription{
+    width: 600px;
+    float:left;
+    padding: 0px 10px 10px 10px;
+  }
+
+  .glyphicon{
+    font-size: 10px;
+  }
+
 
 </style>
 <script type="text/javascript">
@@ -28,6 +94,7 @@
     $('[data-toggle="tooltip"]').tooltip('toggle')
   });
 </script>
+
 
 <!-- filtering garage sales by: distance, date, features(open now, has items for sale online) -->
 <!-- sorting garage sales by rating, distance -->
@@ -39,22 +106,16 @@
     <div>
       <div style='float:left;'>
       <span class='searchFilterMargin'>Distance:
-        <select class="form-control" ng-model='distance'>
+        <select class="form-control" ng-model='garageDistance'>
               <option value="1">1 Mile</option>
               <option value="5">5 Miles</option>
               <option value="10">10 Miles</option>
               <option value="30">30 Miles</option>
         </select>
       </span>
-      <span class='searchFilterMargin'>Within:
-        <select class="form-control" ng-model='date'>
-              <option value="Today">Today</option>
-              <option value="3">3 Days</option>
-              <option value="7">1 Week</option>
-              <option value="14">2 Weeks</option>
-              <option value="30">1 Month</option>
-        </select>
-      </span> 
+      <span class='searchFilterMargin'>
+        <input type='date' class='form-control' ng-model='date'>
+      </span>
       <span style='margin-right:1em; display:inline-block;' class='searchFilterMargin'>
         Features:</div><div style='float:left; margin-right:10px;'><input type='checkbox' ng-model='openNow' value='true'> Open Now<br>
         <input type='checkbox' ng-model='hasItems'> Selling Items Online</div>
@@ -85,21 +146,43 @@
   </form> 
   <br>
   <div class='container'>
-    <div id="map"></div>
-    <div id='results'>
-      <div ng-repeat='n in garageSales track by $index'>
-        <div>
-        <p>{{n.title}}</p>
-        <p>{{n.description}}</p>
-        <p>{{n.full_address}}</p>
-        <p>Distance meters: {{distanceMeters}}</p>
-        </div><br>
-      </div>
-      {{garageSales}}
-      <p>{{firstGarageSale}}</p>
-      <button onclick='computeDistance()'></button>
+    <div id='garageTitles'>
+      <div id='mapTitle'><h3>Locations</h3></div>
+      <div id='listingsTitle'><h3>Listings</h3></div>
     </div>
-  </div>
+    <div id="map"></div>
+    <div style='width:600px; float:right;'>
+      <div class="animation" ng-repeat='n in garageSales track by $index'>
+        <div class='garageContainer'>
+          <div style='width:220px; float:left; margin-right:10px;'>
+            <img class='garageImages' src='{{n.image_url}}'>
+          </div>
+          <div style='width:360px; float:left'>
+            <div style='float:left'>
+              <h4 style='width:380px;'>{{n.title}}</h4>
+              <div>{{n.address}}</div>
+              <div>{{n.city}}, {{n.state}} {{n.zip_code}}</div>
+              <div><span class='glyphicon glyphicon-tag'> </span>
+                <span>Purchase items online</span>
+              </div>
+              <div><span class='glyphicon glyphicon-earphone'></span>
+                <span>{{n.phone_number}}</span>
+              </div>
+              <div><span class='glyphicon glyphicon-envelope'></span>
+                <span>{{n.email}}</span>
+              </div>
+            </div>
+          </div>
+          <div style='width:180px; float:right;'>
+                <%= link_to 'View this garage sale', 'garage_sales/' +'{{n.id}}' %>
+            </div>
+          <div class='garageDescription'>
+            <span>Description:</span>
+            <span>{{n.description}} asduhf aosidj foaisdjf aoisdj foisdjf ao;isdj fao;sidj foaisdjf ao;isdjf aos;idjf as;oid fj</span>
+          </div>
+        </div><br>
+
+    </div>
 </body>
 </html>
   

@@ -139,219 +139,23 @@
             <%= f.label :has_items, "Would you like to sell items directly through our site?" %><br>
             <p>(You will be able to post your items on the next page)</p>
             <%= f.check_box :wants_to_sell %>
-            <%= f.label "Yes" %>
-            <%= f.submit 'Post Garage Sale', :class => 'btn btn-default'%>
-            <% end %>
-        </div><br>
-        </div>
-        <br><br>
-
-<!--         <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h3>Select Photos</h3>
-                    <div ng-show="uploader.isHTML5">
-                        <!-- 3. nv-file-over uploader="link" over-class="className" -->
-                        <!-- Example: nv-file-drop="" uploader="{Object}" options="{Object}" filters="{String}"
-                        <div nv-file-drop="" uploader="uploader" options="{ url: '/foo' }">
-                            <div nv-file-over="" uploader="uploader" over-class="another-file-over-class" class="well my-drop-zone">
-                                Drag Images Here
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}"
-                    <input type="file" nv-file-select="" uploader="uploader" multiple  /><br/>
-                </div>
-
-                <div class="col-md-9" style="margin-bottom: 40px">
-
-                    <h3>Upload Queue</h3>
-                    <p>Queue length: {{ uploader.queue.length }}</p>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th width="50%">Name</th>
-                                <th ng-show="uploader.isHTML5">Size</th>
-                                <th ng-show="uploader.isHTML5">Progress</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in uploader.queue">
-                                <td><strong>{{ item.file.name }}</strong></td>
-                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                                <td ng-show="uploader.isHTML5">
-                                    <div class="progress" style="margin-bottom: 0;">
-                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                                </td>
-                                <td nowrap>
-                                
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div>
-                        <div>
-                            Queue progress:
-                            <div class="progress" style="">
-                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
+            <%= f.label "Yes" %><br><br>
+            <div class="control-group">
+            <%= f.label 'Upload Photos', :class => 'control-label' %>
+            <div class="controls">
+                   <!-- The magic is coming ...look at my eyes....shazammmm -->
+                   <!-- Use HTML5 multiple attribute to enable multiple selection
+                        and pass back to controller all files as an array, ready 
+                        for paperclip!!
+                        file_field_tag, since images is not a gallery attribute
+                    -->
+                   <%= file_field_tag "images[]", {:multiple => true} %>
+                 </div>
+             </div><br><br>
+             <%= f.submit 'Post Garage Sale', :class => 'btn btn-default'%>
+             <% end %>
             </div>
-        </div><br> -->
-
-
-        <div class="container">
-          <h2>Upload file</h2>
-            <%= form_for Picture.new, :html => { :multipart => true, :id => "fileupload"  } do |g| %>
-            <!-- The fileupload-buttonbar contains buttons to add/delete files and      start/cancel the upload -->
-            <div class="row fileupload-buttonbar">
-              <div class="span7">
-                <!-- The fileinput-button span is used to style the file input field        as button -->
-                <span class="btn btn-success fileinput-button">
-                  <i class="icon-plus icon-white"></i>
-                  <span>Add files...</span>
-                  <%= g.file_field :image %>
-                </span>
-                <button type="submit" class="btn btn-primary start">
-                  <i class="icon-upload icon-white"></i>
-                  <span>Start upload</span>
-                </button>
-                <button type="reset" class="btn btn-warning cancel">
-                  <i class="icon-ban-circle icon-white"></i>
-                  <span>Cancel upload</span>
-                </button>
-                <button type="button" class="btn btn-danger delete">
-                  <i class="icon-trash icon-white"></i>
-                  <span>Delete</span>
-                </button>
-                <input type="checkbox" class="toggle">
-              </div>
-              <div class="span5">
-                <!-- The global progress bar -->
-                <div class="progress progress-success progress-striped active fade">
-                  <div class="bar" style="width:0%;"></div>
-                </div>
-              </div>
-            </div>
-            <!-- The loading indicator is shown during image processing -->
-            <div class="fileupload-loading"></div>
-            <br>
-            <!-- The table listing the files available for upload/download -->
-            <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
-            </table>
-            <% end %>
-
-        
         </div>
-        <script>
-          var fileUploadErrors = {
-          maxFileSize: 'File is too big',
-          minFileSize: 'File is too small',
-          acceptFileTypes: 'Filetype not allowed',
-          maxNumberOfFiles: 'Max number of files exceeded',
-          uploadedBytes: 'Uploaded bytes exceed file size',
-          emptyResult: 'Empty file upload result'
-          };
-        </script>
-        
-        <!-- The template to display files available for upload -->
-        <script id="template-upload" type="text/x-tmpl">
-          {% for (var i=0, file; file=o.files[i]; i++) { %}
-          <tr class="template-upload fade">
-            <td class="preview"><span class="fade"></span></td>
-            <td class="name"><span>{%=file.name%}</span></td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.  error] || file.error%}</td>
-            {% } else if (o.files.valid && !i) { %}
-            <td>
-              <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-            </td>
-            <td class="start">{% if (!o.options.autoUpload) { %}
-              <button class="btn btn-primary">
-                <i class="icon-upload icon-white"></i>
-                <span>{%=locale.fileupload.start%}</span>
-              </button>
-              {% } %}</td>
-            {% } else { %}
-            <td colspan="2"></td>
-            {% } %}
-            <td class="cancel">{% if (!i) { %}
-              <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>{%=locale.fileupload.cancel%}</span>
-              </button>
-              {% } %}</td>
-          </tr>
-          {% } %}
-        </script>
-        <!-- The template to display files available for download -->
-        <script id="template-download" type="text/x-tmpl">
-          {% for (var i=0, file; file=o.files[i]; i++) { %}
-            <tr class="template-download fade">
-              {% if (file.error) { %}
-                <td></td>
-                <td class="name"><span>{%=file.name%}</span></td>
-                <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-                <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.  error] || file.error%}</td>
-                {% } else { %}
-                <td class="preview">{% if (file.thumbnail_url) { %}
-                  <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a    >
-                  {% } %}</td>
-                <td class="name">
-                  <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.n     ame%}</a>
-                </td>
-                <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-                <td colspan="2"></td>
-                {% } %}
-              // <td class="delete">
-              // <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-              //     <i class="icon-trash icon-white"></i>
-              //     <span>{%=locale.fileupload.destroy%}</span>
-              //   </button>
-              //   <input type="checkbox" name="delete" value="1">
-              // </td>
-            </tr>
-            {% } %}
-        </script>
-        
-        <script type="text/javascript" charset="utf-8">
-          $(function () {
-              // Initialize the jQuery File Upload widget:
-              $('#fileupload').fileupload();
-              // 
-              // Load existing files:
-              $.getJSON($('#fileupload').prop('action'), function (files) {
-                var fu = $('#fileupload').data('blueimpFileupload'), 
-                  template;
-                fu._adjustMaxNumberOfFiles(-files.length);
-                console.log(files);
-                template = fu._renderDownload(files)
-                  .appendTo($('#fileupload .files'));
-                // Force reflow:
-                fu._reflow = fu._transition && template.length &&
-                  template[0].offsetWidth;
-                template.addClass('in');
-                $('#loading').remove();
-              });
-          });
-        </script>
-
 
 
         <button type='submit' ng-click='hello(garage_sale, userId)'></button>

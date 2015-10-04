@@ -45,23 +45,18 @@ class PicturesApiController < ApplicationController
     @picture = Picture.find(params[:id])
   end
 
+
   # POST /pictures
   # POST /pictures.json
+
   def create
-    @picture = Picture.new(params[:picture][:image])
-    respond_to do |format|
-      if @picture.save
-        format.html {
-          render :json => [@picture.to_jq_picture].to_json,
-          :content_type => 'text/html',
-          :layout => false
-        }
-        format.json { render json: {files: [@picture.to_jq_picture]}, status: :created, location: @picture }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @picture.errors, status: :unprocessable_entity }
-      end
+    @garage_sale = GarageSale.find(params[:garage_sale_id])
+
+    params[:picture]['file']).each do |f|
+      @picture = Picture.create!(:file => f, :garage_sale_id => @garage_sale.id)
     end
+    
+    redirect_to @garage_sale
   end
 
   # PUT /pictures/1
@@ -95,6 +90,11 @@ class PicturesApiController < ApplicationController
 
   	private
   		def image_params
-  			
+  			 params.require(:picture).permit(
+          :image_file_name, 
+          :image_content_type,
+          :image_file_size,
+          :image_updated_at
+        )
   		end
 end
