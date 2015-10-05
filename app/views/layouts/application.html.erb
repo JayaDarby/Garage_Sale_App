@@ -104,7 +104,7 @@
   </style>
 </head>
 <body>
-	<nav class="daNav navbar transparent navbar-inverse">
+	<nav class="daNav navbar transparent navbar-inverse" ng-controller='NavController'>
 
 	  <div class="daNav container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -132,7 +132,7 @@
    		    <li><% if logged_in?%><%= link_to "Logout", logout_path, method: :delete %><% else %><%= link_to "Login", login_path %><% end %></li>
    		  </ul>
    		  <ul class="nav navbar-nav navbar-right">
-   		    <li><div id='shopNavCenter'><i class="fa fa-shopping-cart"></i></div></li>
+   		    <li><div id='shopNavCenter'><a href='/cart'><i class="fa fa-shopping-cart"></i><span> </span></a></div></li>
    		  </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><% if logged_in?%><%= link_to 'Post a Garage Sale', new_user_garage_sale_path(session[:user_id]) %><% end %></li>

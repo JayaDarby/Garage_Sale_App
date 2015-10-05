@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#login'
   post '/login', to: 'sessions#attempt_login'
   get '/logout', to: 'sessions#logout'
+  get '/cart', to: 'charges#checkout'
   
   resources :items, only:[:show];
   resources :garage_sales, only:[:show]

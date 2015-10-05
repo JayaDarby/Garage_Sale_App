@@ -21,6 +21,78 @@
     width: 900px;
     margin:auto;
   }
+
+  #results {
+    width:600px;
+    float:right;
+  }
+  #mapTitle{
+    float: left;
+    width:500px;
+    text-align: center;
+    font-family: 'Lobster'
+  }
+
+  #listingsTitle{
+    width: 600px;
+    float:right;
+    text-align: center;
+    font-family: 'Lobster'
+  }
+  h3{
+    font-size: 30px;
+  }
+  .garageContainer{
+    width: 600px;
+    border: 1px solid black;
+    border-radius: 20px;
+    overflow:hidden;
+
+  }
+  .animation.ng-enter {
+    -webkit-transition: 1s;
+    opacity: 0;
+  }
+  
+  .animation.ng-enter-stagger {
+    transition-delay: 0.2s;
+  }
+  
+  .animation.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+
+  #garageTitles {
+    margin-bottom: 70px;
+  }
+
+  #searchFilterGarageSales {
+
+  }
+
+  #map {
+    border-radius: 30px;
+  }
+
+  .garageImages {
+    height:160px;
+    width: 220px;
+    display: inline;
+    padding: 10px;
+    float:left;
+    border-radius: 20px;
+  }
+
+  .garageDescription{
+    width: 600px;
+    float:left;
+    padding: 0px 10px 10px 10px;
+  }
+
+  .glyphicon{
+    font-size: 10px;
+  }
+
 </style>
 <script type="text/javascript">
   $(function () {
@@ -70,25 +142,37 @@
     </div>
   </form> 
   <br><br>
-  <div id="map"></div>
-  <div style='width:600px; float:right;'>
-      <div ng-repeat='n in items | filter:theSearch track by $index' class='repeated-item'ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
-        <div style='width:600px'>
-          <div style='width:200px; float:left; margin-right:10px;'>
-          <div>{{n.images[0]}}</div>
-          <div>{{n.name}}</div>
-          <div>Price: {{n.price | currency }}</div>
-          <%= link_to 'View this item', 'items/' +'{{n.id}}' %>
+
+  <br>
+  <div class='container'>
+    <div id='garageTitles'>
+      <div id='mapTitle'><h3>Locations</h3></div>
+      <div id='listingsTitle'><h3>Items</h3></div>
+    </div>
+    <div id="map"></div>
+    <div style='width:600px; float:right;'>
+      <div class="animation" ng-repeat='n in items | filter:theSearch track by $index'>
+        <div class='garageContainer'>
+          <div style='width:220px; float:left; margin-right:10px;'>
+            <img class='garageImages' src='{{n.image_url}}'>
           </div>
-          <div style='width:350px float:left;'>
-          <div>{{n.description}}</div>
+          <a ng-href='/items/{{n.id}}'><h4>{{n.name}}</h4></a>
+          <div style='width:180px; float:left'>
+              <div>{{n.full_address}}</div>
+              <div>{{n.price | currency }}</div>
           </div>
-        </div>
-        <br><br>
+          <div style='width:170px; float:left;'>
+                <%= link_to 'View this item', 'items/' +'{{n.id}}' %>
+          </div>
+          <div class='garageDescription'>
+            <span>Description:</span>
+            <span>{{n.description}} asduhf aosidj foaisdjf aoisdj foisdjf ao;isdj fao;sidj foaisdjf ao;isdjf aos;idjf as;oid fj</span>
+          </div>
+        </div><br>
       </div>
-      <div ng-hide='items.length==0'></div>
+    </div>
   </div>
-  </div>
+</div>
   
 <!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
 

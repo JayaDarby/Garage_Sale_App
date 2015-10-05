@@ -25,5 +25,9 @@ class ChargesController < ApplicationController
 	  redirect_to items_path(params[:id])
 	end
 
+	def checkout
+		
+	end
+
 
 end

@@ -1,34 +1,54 @@
-<%= @garage_sale.title  %>
-<%= @garage_sale.description  %>
-<%= image_tag @garage_sale.photo.url(:small) %>
-<%= @garage_sale.id  %>
-<%= link_to "Delete", user_garage_sale_path(@user, @garage_sale), method: :delete, data: {confirm: "are you sure?"} %>
 <style type="text/css">
   h2 {
   	text-align: center;
   	font-family: 'Lobster';
   }
+  img {
+  	width:300px;
+  	border-radius: 20px;
+  }
+  .garageDescription {
+  	margin-top: 10px;
+  }
 </style>
-
-<%= @garage_sale.duration_times[0].date %>
+<div ng-controller='HomeController'>
 <div class='container'>
 	<div style='width:500px; float:left;'>
-		<h2><%= @garage_sale.title  %></h2>
+		<h2>Garage Sale</h2>
 		<img src='<%= @garage_sale.image_url  %>' style='width:500px'>
-		<div><%= @garage_sale.address  %></div>
-		<div><%= @garage_sale.city  %>, <%= @garage_sale.state  %> <%= @garage_sale.zip_code  %></div>
-		<div><%= @garage_sale.description  %></div>
-		<div><%= @garage_sale.description  %></div>
-		<div><%= @garage_sale.phone_number  %></div>
-		<div><%= @garage_sale.email  %></div>
+		<h3 style='width:500px; text-align:center;' ><%= @garage_sale.title  %></h3>
+		<div style='width:245px; float:left'>
+			<div><%= @garage_sale.address  %></div>
+			<div><%= @garage_sale.city  %>, <%= @garage_sale.state  %> <%= @garage_sale.zip_code  %></div>
+			<div><span class='glyphicon glyphicon-earphone'> <%= @garage_sale.phone_number  %></div>
+			<div><span class='glyphicon glyphicon-envelope'> <%= @garage_sale.email  %></div>
+		</div>
+		<div style='width:245px; float:left'>
+			<% @garage_sale.duration_times.each do |sale|  %>
+			<span class='glyphicon glyphicon-time'></span> <%= sale.date.to_s(:long)  %> <%= sale.start_time.to_s(:time)  %> - <%= sale.end_time.to_s(:time)  %><br>
+			<% end %>
+		</div>
+		<div class='garageDescription' style='width:500px; float:left;'><%= @garage_sale.description  %></div>
 	</div>
 	<div style='width:600px; float:right;'>
 		<% if @garage_sale.has_items %>
 		<h2>Items for Sale</h2>
 		<% @items.each do |item| %>
-			<div><%= item.name %><div>
+			<div style='width:300px; float:left'><img ng-init="a.image_url = '<%= item.image_url %>'" src='<%= item.image_url %>' ></div>
+			<div style='width:250px; float:right; position:relative;'>
+				<h4 ng-init="a.name = '<%= item.name %>'"><%= item.name %></h4>
+				<div ng-init="a.price = '<%= item.price %>'">$<%= item.price %></div>
+				<div ng-init="a.description = '<%= item.description %>'"><%= item.description %></div><br><br>
+		   		<button class='btn btn-default btn-sm'style='position:absolute; bottom:0; right:0;'ng-click='addItemToCart(a)'>Add To Cart</button>
+		    </div>
 		<%  %>
 		<% end %>
-		<% end %>
+		<% end %><br><br>
 	</div>
+</div>{{cart}}<p>{{cartLength}}</p>
+</div>
+
+
+<div ng-controller='CartController'>
+	{{cart}}
 </div>

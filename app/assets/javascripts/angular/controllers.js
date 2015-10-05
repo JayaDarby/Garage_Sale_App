@@ -1,10 +1,15 @@
-app.controller('HomeController', function($scope, $location, $http, $window) {
+app.controller('HomeController', function($scope, $location, $http, $rootScope, $window, $rootScope, Cart) {
 
     //find
 	$scope.testing = "It's working!";
 	$scope.garageSaleAddresses = [];
     $scope.garageSales = [];
     $scope.items = [];
+    $scope.cart = Cart.cart;
+    $scope.addItemToCart = function(item){
+        Cart.addItem(item);
+    };
+    $rootScope.numItems = Cart.numItems;
 
     $scope.gs = function(){
         $scope.garageSales.forEach(function(sale){
@@ -81,9 +86,23 @@ app.controller('HomeController', function($scope, $location, $http, $window) {
             });
         });
     }
-    $scope.firstGarageSale = $scope.garageSales[0];
-    $scope.addItemToCart = function(){
-    
-    }
 
 });
+
+app.controller('NavController', function($scope, Cart){
+  $scope.cart = Cart.cart;
+});
+
+app.controller('CartController', function($scope, Cart){
+  $scope.cart = Cart.cart;
+      $scope.addItemToCart = function(item){
+        Cart.addItem(item);
+    };
+
+   $scope.data = function(){
+        return Cart.cart;
+      };
+
+});
+
+
