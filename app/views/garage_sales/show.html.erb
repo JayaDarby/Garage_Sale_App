@@ -14,8 +14,8 @@
 <div ng-controller='HomeController'>
 <div class='container'>
 	<div style='width:500px; float:left;'>
-		<h2>Garage Sale</h2>
-		<img src='<%= @garage_sale.image_url  %>' style='width:500px'>
+		<h2>Garage Sale</h2><br>
+		<img src='<%= @garage_sale.image_url  %>' style='width:500px; margin-top:10px;'>
 		<h3 style='width:500px; text-align:center;' ><%= @garage_sale.title  %></h3>
 		<div style='width:245px; float:left'>
 			<div><%= @garage_sale.address  %></div>
@@ -32,23 +32,22 @@
 	</div>
 	<div style='width:600px; float:right;'>
 		<% if @garage_sale.has_items %>
-		<h2>Items for Sale</h2>
+		<h2>Items for Sale</h2><br>
 		<% @items.each do |item| %>
-			<div style='width:300px; float:left'><img ng-init="a.image_url = '<%= item.image_url %>'" src='<%= item.image_url %>' ></div>
-			<div style='width:250px; float:right; position:relative;'>
+		<div style='height:250px;'>
+			<div style='width:300px; float:left; margin-right:20px; margin-top:10px;'><img ng-init="a.image_url = '<%= item.image_url %>'" src='<%= item.image_url %>' ></div>
+			<div style='width:250px; float:left; position:relative;'>
 				<h4 ng-init="a.name = '<%= item.name %>'"><%= item.name %></h4>
-				<div ng-init="a.price = '<%= item.price %>'">$<%= item.price %></div>
+				<div ng-init="a.price = '<%= item.price %>'"><%= number_to_currency(item.price) %></div>
 				<div ng-init="a.description = '<%= item.description %>'"><%= item.description %></div><br><br>
-		   		<button class='btn btn-default btn-sm'style='position:absolute; bottom:0; right:0;'ng-click='addItemToCart(a)'>Add To Cart</button>
+		   		<a ng-href='/items/<%= item.id %>'><button class='btn btn-default btn-sm'style='position:absolute; bottom:0; right:0;'ng-click='addItemToCart(a)'>View Item</button></a>
 		    </div>
 		<%  %>
+	   </div><br><br>
 		<% end %>
-		<% end %><br><br>
+		<% end %>
 	</div>
-</div>{{cart}}<p>{{cartLength}}</p>
+</div>
 </div>
 
 
-<div ng-controller='CartController'>
-	{{cart}}
-</div>

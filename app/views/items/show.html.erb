@@ -1,7 +1,16 @@
 <div ng-controller='HomeController' class='container'>
-<%= @item.name  %>
-<%= @item.description  %>
-<%= @item.price  %>
+<div style='width:700px; margin:auto; margin-top:50px'>
+  <img style='width:300px; float:left; border-radius:20px; margin-right:20px; margin-top:10px;' src='<%= @item.image_url %>'>
+  <div style='width:300px; float:left;'>
+    <h4><%= @item.name  %></h4>
+    <p><%= number_to_currency(@item.price)  %></p>
+    <div>Pickup Times:</div>
+    <% @item.duration_times.each do |a|  %>
+        <span class='glyphicon glyphicon-time'></span> <%= a.date.to_s(:long)  %> <%= a.start_time.to_s (:time)  %> - <%= a.end_time.to_s(:time)  %><br>
+        <% end %><br>
+    <div><%= @item.description %></div>
+  </div>
+</div>
 <!-- <button type='button' ng-click='addToCart()' name='Add To Cart' value='Purchase'>Purchase</button> -->
 
 
@@ -41,15 +50,21 @@
 <%= form_tag charges_path do %>
   <article>
     <label class="amount">
-      <span>Amount: $1.22</span>
+      <span></span>
     </label>
   </article>
 
   <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-          data-description="Garage Sale Item"
-          data-amount="122"
+          data-description="<%= @item.name %>"
+          data-amount="<%= @item.price.to_s.split('.').join.to_i %>"
           data-locale="auto"></script>
-<% end %>
+  <% end %>
+
+  <script type="text/javascript">
+    // This identifies your website in the createToken call below
+    Stripe.setPublishableKey('pk_test_Up5fQXvaajqiTY45GPGMGNLC');
+    // ...
+  </script>
 
 </div>

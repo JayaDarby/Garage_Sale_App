@@ -11,14 +11,6 @@ app.config(['$httpProvider', '$locationProvider', function($httpProvider, $locat
 	// });
 }])
 
-app.config(function($routeProvider, $locationProvider){
-	$routeProvider
-	.when('/cart', {
-		templateUrl:'partials/cart.html',
-		controller: 'cartController'
-	})
-})
-
 
 app.factory("Cart", function($rootScope){
     var Cart = {};
