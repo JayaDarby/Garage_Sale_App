@@ -93,6 +93,19 @@
     font-size: 10px;
   }
 
+  a.button {
+  font: bold 11px;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+  border-radius: 5px;
+  }
+
 </style>
 <script type="text/javascript">
   $(function () {
@@ -112,11 +125,11 @@
     <div id='searchFilterItems'>
       <div>
       <span class='searchFilterMargin'>Distance:
-        <select class="form-control" ng-model='distance'>
+        <select class="form-control" ng-model='theDistance'>
               <option value="1">1 Mile</option>
-              <option value="2">5 Miles</option>
-              <option value="3">10 Miles</option>
-              <option value="4">30 Miles</option>
+              <option value="5">5 Miles</option>
+              <option value="10">10 Miles</option>
+              <option value="30">30 Miles</option>
         </select>
       </span>
       <span class='searchFilterMargin'>Pick Up Within:
@@ -141,7 +154,6 @@
     </div>
     </div>
   </form> 
-  <br><br>
 
   <br>
   <div class='container'>
@@ -162,11 +174,11 @@
               <div>{{n.price | currency }}</div>
           </div>
           <div style='width:170px; float:left;'>
-                <%= link_to 'View this item', 'items/' +'{{n.id}}' %>
+                <%= link_to 'View this item', 'items/' +'{{n.id}}', :class => 'button' %>
           </div>
           <div class='garageDescription'>
             <span>Description:</span>
-            <span>{{n.description}} asduhf aosidj foaisdjf aoisdj foisdjf ao;isdj fao;sidj foaisdjf ao;isdjf aos;idjf as;oid fj</span>
+            <span>{{n.description}}</span>
           </div>
         </div><br>
       </div>
@@ -177,7 +189,7 @@
 <!--     <input type='button' value='Find Garage Sales Near Me' ng-click='getDistanceBetweenMarkers()'></input> -->
 
     <script type="text/javascript">
-      var geocoder, map, marker, service, homeLocation;
+      var geocoder, map, marker, service, homeLocation, hLat, hLong;;
       var garageSales = [];
       var markersArray = [];
 
@@ -204,6 +216,8 @@
         ///*********------GETS YOUR LOCATION------**********
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
+            hLat = position.coords.latitude;
+            hLong = position.coords.longitude;
             var myLocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
@@ -398,7 +412,7 @@
       
     </script>
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDD39e1frZNIO5-4Rz6dvIHUPyz7FXmQ&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDD39e1frZNIO5-4Rz6dvIHUPyz7FXmQ&libraries=geometry&callback=initMap">
     </script>
   </div>
 </body>

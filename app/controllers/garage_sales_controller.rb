@@ -9,6 +9,7 @@ class GarageSalesController < ApplicationController
   	@garage_sale = GarageSale.where(id: params[:id])[0]
   	@user = User.where(id: params[:user_id])
     @items = Item.where(garage_sale_id: @garage_sale.id)
+
   end
 
 
@@ -32,6 +33,7 @@ class GarageSalesController < ApplicationController
   	@user = User.find_by_id(params[:user_id])
   	@garage_sale = @user.garage_sales.create(garage_sale_params)
   	@garage_sale.full_address = @garage_sale.address.to_s + ', ' + @garage_sale.city.to_s + ', ' + @garage_sale.state.to_s + ' ' + @garage_sale.zip_code.to_s
+    @garage_sale.image_url = 'http://www.visitscotland.com/cms-images/2x1/regions/aberdeen-shire/fyvie-castle'
 
   	if @garage_sale.save
         # puts 'THE PARAMS IMAGE IS'

@@ -36,7 +36,6 @@ h = GarageSale.create(full_address:'19 Rebecca Ln, San Francisco, CA 94124', add
 	image_url:'http://thefuntimesguide.com/images/blogs/leftover-yard-sale-items.jpg', title:'Yard Sale! Baseball Card Collection, tools, and more!!',
 	description:'We are finally getting rid of all the extra junk lying around our place. We have a pretty rare baseball card collection if anyone out there collects.',
 	phone_number:4087651998, email:'mattdrew789@gmail.com', has_items:true)
-
 i = GarageSale.create(full_address:'310 Montcalm St, San Francisco, CA 94110', address:'310 Montcalm St', city:'San Francisco', state:'CA', zip_code:94110, 
 	image_url:'http://si.wsj.net/public/resources/images/NA-BO759_GARAGE_G_20111229190236.jpg', title:'Estate Sale San Francisco',
 	description:'My mother has passed away and has left behind beautiful antiques and furniture. I love a lot of the items but I simply do not have room for them.',

@@ -88,6 +88,19 @@
     font-size: 10px;
   }
 
+  a.button {
+  font: bold 11px;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+  border-radius: 5px;
+}
+
 
 </style>
 <script type="text/javascript">
@@ -174,14 +187,14 @@
             </div>
           </div>
           <div style='width:170px; float:left;'>
-                <%= link_to 'View this garage sale', 'garage_sales/' +'{{n.id}}' %>
+                <%= link_to 'View this garage sale', 'garage_sales/' +'{{n.id}}', :class => 'button' %>
                 <span ng-repeat="task in n.duration_times">
                   <span>{{task}}</span>
                 </span>
             </div>
           <div class='garageDescription'>
             <span>Description:</span>
-            <span>{{n.description}}</span>
+            <span>{{n.description}} </span>
           </div>
         </div><br>
       </div>
